@@ -16,7 +16,7 @@ public class Fourier {
      * @return magnitudes of complex output numbers
      * @throws  RuntimeException    if <code>input.length</code> is not a power of 2
      * */
-    public static double[] fft(double[] input) {
+    public static double[] transform(double[] input) {
         int length = input.length;
 
         if ((length & (length - 1)) != 0)
@@ -24,7 +24,7 @@ public class Fourier {
 
 
         double[][] complex = toComplex(input);
-        complex = fft(complex);
+        complex = transform(complex);
 
         for (int i = 0; i < length; i++)
             input[i] = complex[i][0];
@@ -43,7 +43,7 @@ public class Fourier {
      * @return array of complex numbers
      * @throws  RuntimeException    if <code>input.length</code> is not a power of 2
      * */
-    public static double[][] fft(double[][] input) {
+    public static double[][] transform(double[][] input) {
         int length = input.length;
 
         if ((length & (length - 1)) != 0)
@@ -63,8 +63,8 @@ public class Fourier {
                 odd[i] = new double[] {input[inputIndex + 1][0], input[inputIndex + 1][1]};
             }
 
-            double[][] fftEven = fft(even);
-            double[][] fftOdd = fft(odd);
+            double[][] fftEven = transform(even);
+            double[][] fftOdd = transform(odd);
 
 
             double[] twiddle = new double[] {1, 0};

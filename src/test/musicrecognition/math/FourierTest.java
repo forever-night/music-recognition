@@ -1,10 +1,7 @@
 package musicrecognition.math;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 /**
  * Created by anna on 29/03/16.
@@ -14,7 +11,7 @@ public class FourierTest {
     public void fftInput2() {
         double[][] input = { {3, 0}, {3, 0} };
 
-        double[][] actuals = Fourier.fft(input);
+        double[][] actuals = Fourier.transform(input);
         double[][] expecteds = { {6, 0}, {0, 0} };
 
         for (int i = 0; i < actuals.length; i++) {
@@ -29,7 +26,7 @@ public class FourierTest {
                 {1, 0}, {2, 0}, {3, 0}, {4, 0}
         };
 
-        double[][] actuals = Fourier.fft(input);
+        double[][] actuals = Fourier.transform(input);
         double[][] expecteds = {
                 {20, 0}, {0, 0}, {5.6, 2.36}, {0, 0},
                 {-4, 0}, {0, 0}, {5.66, 3.93}, {0, 0}
@@ -48,7 +45,7 @@ public class FourierTest {
                 {1, 0}, {2, 0}, {3, 0}, {4, 0}
         };
 
-        double[][] actuals = Fourier.fft(input);
+        double[][] actuals = Fourier.transform(input);
         double[][] expecteds = {
                 {40, 0}, {0, 0}, {0, 0}, {0, 0},
                 {11.31, 2.36}, {0, 0}, {0, 0}, {0, 0},
@@ -69,7 +66,7 @@ public class FourierTest {
                 1, 1, 1, 5
         };
 
-        double[] actuals = Fourier.fft(input);
+        double[] actuals = Fourier.transform(input);
         double[] expecteds = {
                 32, 0, 0, 0,
                 16, 0, 0, 0,
