@@ -1,5 +1,7 @@
 package musicrecognition.audio.audiotypes;
 
+import musicrecognition.audio.AudioDecoder;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
@@ -7,6 +9,10 @@ import java.io.IOException;
 
 
 public interface AudioType {
+    AudioDecoder getDecoder();
+
+    void setDecoder(AudioDecoder decoder);
+
     /**
      * Extracts audio data from file.<br>
      * Acceptable file formats:

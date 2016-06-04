@@ -1,7 +1,7 @@
 package musicrecognition.audio.audiotypes;
 
-import musicrecognition.AudioUtil;
 import musicrecognition.IOUtil;
+import musicrecognition.audio.AudioDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,11 +14,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by anna on 21/03/16.
- */
+
 public class WavType implements AudioType {
     private static final Logger LOGGER = LogManager.getLogger(WavType.class);
+
+    AudioDecoder decoder;
+
+    public WavType(AudioDecoder decoder) {
+        this.decoder = decoder;
+    }
+
+    @Override
+    public AudioDecoder getDecoder() { return decoder; }
+
+    @Override
+    public void setDecoder(AudioDecoder decoder) { this.decoder = decoder; }
 
     @Override
     public AudioInputStream getAudioInputStream(File file) throws IOException, UnsupportedAudioFileException {
@@ -43,11 +53,7 @@ public class WavType implements AudioType {
 
 
         byte[] bytes = IOUtil.inputStreamToByteArray(audioInputStream);
-        double[] samples = AudioUtil.getSamples(bytes, sampleSizeInBits, isBigEndian);
 
-        if (channels > 1)
-            samples = AudioUtil.downsampleToMono(samples, channels);
-
-        return samples;
+        return decoder.getSamples(bytes, sampleSizeInBits, isBigEndian, channels);
     }
 }
