@@ -1,21 +1,28 @@
 package musicrecognition.math;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by anna on 20/04/16.
- */
+
 public class HannWindowTest {
+    Window hannWindow;
+
+
+    @Before
+    public void setUp() {
+        hannWindow = new HannWindow();
+    }
+
     @Test
     public void applyInput1() {
         double[] input = {1};
         double[] expected = {1};
-        double[] actual = HannWindow.apply(input);
+        double[] actual = hannWindow.apply(input);
 
         Assert.assertArrayEquals(expected, actual, 0);
     }
@@ -23,7 +30,7 @@ public class HannWindowTest {
     @Test(expected = RuntimeException.class)
     public void applyInputLengthNotPowerOf2() {
         double[] input = {1, 2, 3};
-        HannWindow.apply(input);
+        hannWindow.apply(input);
     }
 
     @Test
@@ -36,7 +43,7 @@ public class HannWindowTest {
                 0.95, 0.61, 0.18, 0
         };
 
-        double[] actuals = HannWindow.apply(input);
+        double[] actuals = hannWindow.apply(input);
 
         Assert.assertArrayEquals(expecteds, actuals, 0.01);
     }
@@ -53,7 +60,7 @@ public class HannWindowTest {
                 4.75, 3.66, 1.31, 0
         };
 
-        double[] actuals = HannWindow.apply(input);
+        double[] actuals = hannWindow.apply(input);
 
         Assert.assertArrayEquals(expecteds, actuals, 0.01);
     }

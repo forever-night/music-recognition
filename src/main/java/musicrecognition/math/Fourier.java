@@ -2,9 +2,7 @@ package musicrecognition.math;
 
 import static musicrecognition.math.Complex.*;
 
-/**
- * Created by anna on 23/03/16.
- */
+
 public class Fourier {
     /**
      * Computes Fast Fourier Transform for <b>real</b> input using <i>Cooley Tukey radix-2 DIT algorithm</i>
@@ -27,7 +25,7 @@ public class Fourier {
         complex = transform(complex);
 
         for (int i = 0; i < length; i++)
-            input[i] = complex[i][0];
+            input[i] = Math.pow(complex[i][0], 2);
 
         return input;
     }

@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by anna on 18/03/16.
- */
+
 public class IOUtil {
     public static byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

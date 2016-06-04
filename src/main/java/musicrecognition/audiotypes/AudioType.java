@@ -5,9 +5,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by anna on 21/03/16.
- */
+
 public interface AudioType {
     /**
      * Extracts audio data from file.<br>

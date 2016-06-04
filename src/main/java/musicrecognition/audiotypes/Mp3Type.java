@@ -11,16 +11,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-/**
- * Created by anna on 21/03/16.
- */
+
 public class Mp3Type implements AudioType {
     private static final Logger LOGGER = LogManager.getLogger(Mp3Type.class);
 
     public AudioInputStream getAudioInputStream(File file) throws IOException, UnsupportedAudioFileException {
         LOGGER.info(AudioSystem.getAudioFileFormat(file));
 
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
+        AudioInputStream audioInputStream =
+                AudioSystem.getAudioInputStream(
+                        new BufferedInputStream(
+                                new FileInputStream(file)));
 
         return audioInputStream;
     }
