@@ -1,4 +1,4 @@
-package musicrecognition.audiotypes;
+package musicrecognition.audio.audiotypes;
 
 import musicrecognition.AudioUtil;
 import musicrecognition.IOUtil;

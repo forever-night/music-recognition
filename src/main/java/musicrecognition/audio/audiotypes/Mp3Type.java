@@ -1,4 +1,4 @@
-package musicrecognition.audiotypes;
+package musicrecognition.audio.audiotypes;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

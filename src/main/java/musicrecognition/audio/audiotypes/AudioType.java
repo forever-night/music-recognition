@@ -1,4 +1,4 @@
-package musicrecognition.audiotypes;
+package musicrecognition.audio.audiotypes;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.UnsupportedAudioFileException;
