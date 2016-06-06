@@ -1,59 +1,52 @@
 package musicrecognition.audio.audiotypes;
 
-import musicrecognition.IOUtil;
 import musicrecognition.audio.AudioDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.sound.sampled.*;
+import java.io.*;
 
 
-public class WavType implements AudioType {
+public class WavType extends AudioType {
     private static final Logger LOGGER = LogManager.getLogger(WavType.class);
 
-    AudioDecoder decoder;
-
     public WavType(AudioDecoder decoder) {
-        this.decoder = decoder;
+        super(decoder);
     }
 
     @Override
-    public AudioDecoder getDecoder() { return decoder; }
+    public AudioInputStream getAudioInputStream(File file) throws UnsupportedAudioFileException{
+        if (file == null)
+            return null;
 
-    @Override
-    public void setDecoder(AudioDecoder decoder) { this.decoder = decoder; }
 
-    @Override
-    public AudioInputStream getAudioInputStream(File file) throws IOException, UnsupportedAudioFileException {
-        LOGGER.info(AudioSystem.getAudioFileFormat(file));
+        InputStream in = null;
+        AudioFileFormat fileFormat = null;
 
-        InputStream in = new FileInputStream(file);
-        AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
-        long length = AudioSystem.getAudioFileFormat(file).getFrameLength();
+        try {
+            in = new FileInputStream(file);
+            fileFormat = AudioSystem.getAudioFileFormat(file);
+        } catch (IOException e) {
+            LOGGER.error(e.getStackTrace());
+        }
+
+
+        AudioFormat format = fileFormat.getFormat();
+        long length = fileFormat.getFrameLength();
 
         return new AudioInputStream(in, format, length);
     }
 
     @Override
-    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
-        AudioInputStream audioInputStream = null;
-        audioInputStream = getAudioInputStream(file);
-
+    public float getSampleRate(File file) throws IOException, UnsupportedAudioFileException {
         AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
-        int sampleSizeInBits = format.getSampleSizeInBits();
-        int channels = format.getChannels();
-        boolean isBigEndian = format.isBigEndian();
 
+        return format.getSampleRate();
+    }
 
-        byte[] bytes = IOUtil.inputStreamToByteArray(audioInputStream);
-
-        return decoder.getSamples(bytes, sampleSizeInBits, isBigEndian, channels);
+    @Override
+    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
+        return getSamples(file, decoder);
     }
 }
