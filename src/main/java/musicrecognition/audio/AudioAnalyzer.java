@@ -26,23 +26,35 @@ public class AudioAnalyzer {
 
 
         double[] samples = null;
+        int sampleRate = 0;
 
         try {
             samples = type.getSamples(file);
+            sampleRate = (int) type.getSampleRate(file);
         } catch (IOException | UnsupportedAudioFileException e) {
             LOGGER.error(e.getStackTrace());
         }
 
+        if (sampleRate == 0 || samples == null)
+            return null;
 
-        // TODO get sample rate from file
-        int sampleRate = 44100;
+
         int frameSize = audioMath.getFrameSize(sampleRate);
         int overlapSize = audioMath.getOverlapSize(frameSize);
+
+        LOGGER.info("sample rate " + sampleRate);
+        LOGGER.info("frame size " + frameSize);
+        LOGGER.info("overlap " + overlapSize);
 
 
         double[][] frames = audioDecoder.getFrames(samples, sampleRate, frameSize, overlapSize);
         frames = audioMath.applyWindowFunction(hannWindow, frames);
+
+        LOGGER.info("frames " + frames.length + " x " + frames[0].length);
+
         frames = audioMath.applyFFT(frames, sampleRate);
+
+        LOGGER.info("frames fft " + frames.length + " x " + frames[0].length);
 
         return audioMath.getSpectrumPeaks(frames, sampleRate, frameSize, overlapSize);
     }
