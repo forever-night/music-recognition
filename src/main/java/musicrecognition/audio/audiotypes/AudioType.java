@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
@@ -40,9 +41,19 @@ public abstract class AudioType {
      * */
     public abstract AudioInputStream getAudioInputStream(File file) throws UnsupportedAudioFileException;
 
-    public abstract float getSampleRate(File file) throws IOException, UnsupportedAudioFileException;
+    public float getSampleRate(File file) throws IOException, UnsupportedAudioFileException {
+        if (file == null)
+            return 0;
 
-    public abstract double[] getSamples(File file) throws IOException, UnsupportedAudioFileException;
+
+        AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
+
+        return format.getSampleRate();
+    }
+
+    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
+        return getSamples(file, decoder);
+    }
 
     /**
      * Extracts samples from audio file. If file stores multi-channeled audio, downsamples it to mono-channeled.<br>

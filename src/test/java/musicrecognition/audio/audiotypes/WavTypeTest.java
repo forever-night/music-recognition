@@ -38,6 +38,13 @@ public class WavTypeTest {
     }
 
     @Test
+    public void getSampleRateIfFileNull() throws IOException, UnsupportedAudioFileException {
+        int actual = (int) wavType.getSampleRate(null);
+
+        Assert.assertEquals(0, actual);
+    }
+
+    @Test
     public void getAudioInputStreamNotNull() throws IOException, UnsupportedAudioFileException {
         AudioInputStream actual = wavType.getAudioInputStream(file);
 

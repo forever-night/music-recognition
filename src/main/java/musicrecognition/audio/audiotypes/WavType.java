@@ -37,16 +37,4 @@ public class WavType extends AudioType {
 
         return new AudioInputStream(in, format, length);
     }
-
-    @Override
-    public float getSampleRate(File file) throws IOException, UnsupportedAudioFileException {
-        AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
-
-        return format.getSampleRate();
-    }
-
-    @Override
-    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
-        return getSamples(file, decoder);
-    }
 }

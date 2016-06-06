@@ -44,16 +44,4 @@ public class Mp3Type extends AudioType {
 
         return AudioSystem.getAudioInputStream(decodedFormat, inputStream);
     }
-
-    @Override
-    public float getSampleRate(File file) throws IOException, UnsupportedAudioFileException {
-        AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
-
-        return format.getSampleRate();
-    }
-
-    @Override
-    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
-        return getSamples(file, decoder);
-    }
 }

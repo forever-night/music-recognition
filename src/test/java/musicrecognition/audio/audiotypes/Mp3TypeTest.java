@@ -39,6 +39,13 @@ public class Mp3TypeTest {
     }
 
     @Test
+    public void getSampleRateIfFileNull() throws IOException, UnsupportedAudioFileException {
+        int actual = (int) mp3type.getSampleRate(null);
+
+        Assert.assertEquals(0, actual);
+    }
+
+    @Test
     public void getAudioInputStreamNotNull() throws IOException, UnsupportedAudioFileException {
         AudioInputStream actual = mp3type.getAudioInputStream(file);
 
