@@ -1,5 +1,4 @@
 /src/main/resources/*.mp3
-/src/test/resources/*.mp3
 /src/main/resources/*.wav
 /logs
 
