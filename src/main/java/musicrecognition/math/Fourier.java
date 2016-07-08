@@ -25,7 +25,7 @@ public class Fourier {
         complex = transform(complex);
 
         for (int i = 0; i < length; i++)
-            input[i] = Math.pow(complex[i][0], 2);
+            input[i] = complex[i][0];
 
         return input;
     }

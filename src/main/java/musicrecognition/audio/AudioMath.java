@@ -13,10 +13,6 @@ import java.util.List;
 public class AudioMath {
     private static final Logger LOGGER = LogManager.getLogger(AudioMath.class);
 
-    private static final int FREQUENCY_LOW = 32,
-                            FREQUENCY_HIGH = 16384;
-
-
     /**
      * Calculates a frame size, which is the largest number with a power of 2, less or equal to the given sample
      * rate.
@@ -48,11 +44,11 @@ public class AudioMath {
      * @return resolution rounded to 1 digit after zero.
      * */
     public double getFrequencyResolution(int sampleRate, int frameSize) {
-        double resolution = sampleRate / frameSize;
+        double resolution = (double) sampleRate / (double) frameSize;
 
-        resolution *= 10;
+        resolution *= 100;
         resolution = Math.round(resolution);
-        resolution /= 10;
+        resolution /= 100;
 
         return resolution;
     }
@@ -71,8 +67,8 @@ public class AudioMath {
     }
 
     /**
-     * Applies FFT to each window in a set and outputs amplitudes for frequencies in the range of
-     * <code>AudioUtil.FREQUENCY_LOW</code> - <code>AudioUtil.FREQUENCY_HIGH</code> Hz.
+     * Applies FFT to each window in a set and outputs amplitudes for frequencies
+     * where frequency = index * resolution, precise to 2 digits after zero.
      * */
     public double[][] applyFFT(double[][] frames, int sampleRate) {
         if (frames == null)
@@ -84,16 +80,13 @@ public class AudioMath {
 
 
         int frameSize = frames[0].length,
-                startIndex,
+                startIndex = 0,
                 endIndex;
 
         double resolution = getFrequencyResolution(sampleRate, frameSize);
+        int frequencyHigh = frames[0].length / 2;
 
-        startIndex = (int) (FREQUENCY_LOW / resolution);
-        startIndex = startIndex == 0 ? 1 : startIndex;      // frequency 0Hz has amplitude 0, so we don't need it
-
-        endIndex = (int) (FREQUENCY_HIGH / resolution);
-
+        endIndex = (int) (frequencyHigh / resolution);
 
         double[] temp;
 
@@ -118,6 +111,7 @@ public class AudioMath {
         double[][] peaks = new double[frames.length][2];
         double resolution = getFrequencyResolution(sampleRate, frameSize);
 
+        LOGGER.info("resolution " + resolution + " Hz");
 
         int frameMinusOverlap = frameSize - overlapSize;
         Double[] frame;
@@ -131,7 +125,9 @@ public class AudioMath {
             double peakPower = Collections.max(temp);
             double peakIndex = temp.indexOf(peakPower);
 
-            peaks[i][0] = peakIndex * resolution;
+            double peak = peakIndex * resolution * 100;
+            peak = Math.round(peak);
+            peaks[i][0] = peak / 100;
             peaks[i][1] = getSampleAtTimeAxis(i * frameMinusOverlap, sampleRate);
         }
 
