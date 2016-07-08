@@ -6,11 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
 
-/**
- * Created by anna on 29/03/16.
- */
 public class ComplexTest {
     double[] real;
     double[] complex1, complex2;

@@ -3,9 +3,7 @@ package musicrecognition.math;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by anna on 29/03/16.
- */
+
 public class FourierTest {
     @Test
     public void fftInput2() {
@@ -67,6 +65,7 @@ public class FourierTest {
         };
 
         double[] actuals = Fourier.transform(input);
+
         double[] expecteds = {
                 32, 0, 0, 0,
                 16, 0, 0, 0,
