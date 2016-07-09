@@ -100,15 +100,15 @@ public class AudioMath {
 
     /**
      * Finds peak frequencies and their positions on the time axis from a set of frames.<br>
-     * <b>Peak</b> is represented as <code>double[]</code>, where element at index 0 represents frequency in Hz and
+     * <b>Peak</b> is represented as <code>int[]</code>, where element at index 0 represents frequency in Hz and
      * element at index 1 represents time in seconds.
      * */
-    public double[][] getSpectrumPeaks(double[][] frames, int sampleRate, int frameSize, int overlapSize) {
+    public int[][] getSpectrumPeaks(double[][] frames, int sampleRate, int frameSize, int overlapSize) {
         if (frames == null)
             return null;
 
 
-        double[][] peaks = new double[frames.length][2];
+        int[][] peaks = new int[frames.length][2];
         double resolution = getFrequencyResolution(sampleRate, frameSize);
 
         LOGGER.info("resolution " + resolution + " Hz");
@@ -125,9 +125,7 @@ public class AudioMath {
             double peakPower = Collections.max(temp);
             double peakIndex = temp.indexOf(peakPower);
 
-            double peak = peakIndex * resolution * 100;
-            peak = Math.round(peak);
-            peaks[i][0] = peak / 100;
+            peaks[i][0] = (int) (peakIndex * resolution);
             peaks[i][1] = getSampleAtTimeAxis(i * frameMinusOverlap, sampleRate);
         }
 
@@ -137,7 +135,7 @@ public class AudioMath {
     /**
      * Calculates position of a sample on the time axis (in seconds).
      * */
-    private double getSampleAtTimeAxis(int index, int sampleRate) {
+    private int getSampleAtTimeAxis(int index, int sampleRate) {
         return index  / sampleRate;
     }
 

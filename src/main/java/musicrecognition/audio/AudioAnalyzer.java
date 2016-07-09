@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class AudioAnalyzer {
@@ -19,7 +20,13 @@ public class AudioAnalyzer {
     private AudioMath audioMath;
 
 
-    public double[][] getSpectrumPeaks(AudioType type, File file) {
+    /**
+     * Extracts the frequency peaks in a music composition. <br>
+     * Peak is a <code>int[]</code> where element at index 0 is a frequency, element at index 1 is a point in time,
+     * both represented by integers.<br>
+     * Typically there are 2-3 peaks per second.
+     * */
+    public int[][] getSpectrumPeaks(AudioType type, File file) {
         hannWindow = new HannWindow();
         audioMath = new AudioMath();
         audioDecoder = type.getDecoder();
@@ -57,5 +64,24 @@ public class AudioAnalyzer {
         LOGGER.info("frames fft " + frames.length + " x " + frames[0].length);
 
         return audioMath.getSpectrumPeaks(frames, sampleRate, frameSize, overlapSize);
+    }
+
+    /**
+     * Calculates a fingerprint of a single peak by hashing both values of the <code>int[]</code>
+     * */
+    public int fingerprint(int[] peak) {
+        return Objects.hash(peak[0], peak[1]);
+    }
+
+    /**
+     * Calculates fingerprints for all the peaks given.
+     * */
+    public int[] fingerprintAll(int[][] peaks) {
+        int[] fingerprints = new int[peaks.length];
+
+        for (int i = 0; i < fingerprints.length; i++)
+            fingerprints[i] = fingerprint(peaks[i]);
+
+        return fingerprints;
     }
 }
