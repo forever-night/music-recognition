@@ -81,12 +81,23 @@ public class Track {
         return Objects.equals(title, track.title) &&
                 Objects.equals(albumTitle, track.albumTitle) &&
                 Objects.equals(artist, track.artist) &&
-                Objects.equals(year, track.year) &&
-                Objects.equals(genre, track.genre);
+                Objects.equals(year, track.year);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(title, albumTitle, artist, year, genre);
+        return Objects.hash(title, albumTitle, artist, year);
+    }
+    
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Track{");
+        sb.append("title='").append(title).append('\'');
+        sb.append(", albumTitle='").append(albumTitle).append('\'');
+        sb.append(", artist='").append(artist).append('\'');
+        sb.append(", year=").append(year);
+        sb.append(", genre='").append(genre).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

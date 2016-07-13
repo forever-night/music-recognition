@@ -83,7 +83,8 @@ public class TrackDaoImpl implements TrackDao {
 
     @Override
     public boolean checkIfExists(Track track) {
-        String query = "select count(*) from track where title = :title and artist = :artist";
+        String query = "select count(*) from track t " +
+                "where t.title = :title and t.artist = :artist and t.album_title = :albumTitle and t.year = :year";
 
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(track);
         Integer count = namedParameterJdbcTemplate.queryForObject(query, parameterSource, Integer.class);
