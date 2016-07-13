@@ -1,6 +1,6 @@
-package musicrecognition.math;
+package musicrecognition.util.math;
 
-import static musicrecognition.math.Complex.*;
+import static musicrecognition.util.math.Complex.*;
 
 
 public class Fourier {

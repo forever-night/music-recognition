@@ -1,7 +1,7 @@
-package musicrecognition.audio;
+package musicrecognition.util.audio;
 
-import musicrecognition.math.Fourier;
-import musicrecognition.math.Window;
+import musicrecognition.util.math.Fourier;
+import musicrecognition.util.math.Window;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,40 +10,41 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class AudioMath {
-    private static final Logger LOGGER = LogManager.getLogger(AudioMath.class);
-
+public class AudioMathUtil {
+    private static final Logger LOGGER = LogManager.getLogger(AudioMathUtil.class);
+    
+    
     /**
      * Calculates a frame size, which is the largest number with a power of 2, less or equal to the given sample
      * rate.
      *
      * @return number of samples per frame
      * */
-    public int getFrameSize(int sampleRate) {
+    public static int getFrameSize(int sampleRate) {
         double logarithm = Math.log(sampleRate) / Math.log(2);
         logarithm = Math.round(logarithm);
 
         return (int) Math.pow(2.0, logarithm);
     }
-
+    
     /**
      * @return a number of samples in a frame that will overlap, according to given percentage
      * */
-    public int getOverlapSize(int frameSize, double percentage) {
+    public static int getOverlapSize(int frameSize, double percentage) {
         return (int) (frameSize * percentage / 100);
     }
-
+    
     /**
      * @return 50% of a frame size that will overlap
      * */
-    public int getOverlapSize(int frameSize) {
+    public static int getOverlapSize(int frameSize) {
         return getOverlapSize(frameSize, 50);
     }
-
+    
     /**
      * @return resolution rounded to 1 digit after zero.
      * */
-    public double getFrequencyResolution(int sampleRate, int frameSize) {
+    public static double getFrequencyResolution(int sampleRate, int frameSize) {
         double resolution = (double) sampleRate / (double) frameSize;
 
         resolution *= 100;
@@ -52,11 +53,11 @@ public class AudioMath {
 
         return resolution;
     }
-
+    
     /**
      * Applies a window function to each window in a set.
      * */
-    public double[][] applyWindowFunction(Window windowFunction, double[][] frames) {
+    public static double[][] applyWindowFunction(Window windowFunction, double[][] frames) {
         if (frames == null)
             return null;
 
@@ -65,12 +66,12 @@ public class AudioMath {
 
         return frames;
     }
-
+    
     /**
      * Applies FFT to each window in a set and outputs amplitudes for frequencies
      * where frequency = index * resolution, precise to 2 digits after zero.
      * */
-    public double[][] applyFFT(double[][] frames, int sampleRate) {
+    public static double[][] applyFFT(double[][] frames, int sampleRate) {
         if (frames == null)
             return null;
 
@@ -97,13 +98,13 @@ public class AudioMath {
 
         return frames;
     }
-
+    
     /**
      * Finds peak frequencies and their positions on the time axis from a set of frames.<br>
      * <b>Peak</b> is represented as <code>int[]</code>, where element at index 0 represents frequency in Hz and
      * element at index 1 represents time in seconds.
      * */
-    public int[][] getSpectrumPeaks(double[][] frames, int sampleRate, int frameSize, int overlapSize) {
+    public static int[][] getSpectrumPeaks(double[][] frames, int sampleRate, int frameSize, int overlapSize) {
         if (frames == null)
             return null;
 
@@ -135,11 +136,11 @@ public class AudioMath {
     /**
      * Calculates position of a sample on the time axis (in seconds).
      * */
-    private int getSampleAtTimeAxis(int index, int sampleRate) {
+    private static int getSampleAtTimeAxis(int index, int sampleRate) {
         return index  / sampleRate;
     }
 
-    private Double[] toDoubleArray(double[] input) {
+    private static Double[] toDoubleArray(double[] input) {
         Double[] output = new Double[input.length];
 
         for (int i = 0; i < input.length; i++)

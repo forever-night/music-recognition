@@ -1,6 +1,6 @@
-package musicrecognition.audio.audiotypes;
+package musicrecognition.util.audio.audiotypes;
 
-import musicrecognition.audio.AudioDecoder;
+import musicrecognition.util.audio.AudioDecoderUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,15 +14,15 @@ import java.io.IOException;
 public class WavTypeTest {
     String file440wav = getClass().getResource("/440Hz_5s.wav").getFile();
 
-    AudioDecoder decoder;
+    AudioDecoderUtil decoder;
     AudioType wavType;
 
     File wav440;
 
     @Before
     public void setUp() {
-        decoder = new AudioDecoder();
-        wavType = new WavType(decoder);
+        decoder = new AudioDecoderUtil();
+        wavType = new WavType();
         wav440 = new File(file440wav);
     }
 

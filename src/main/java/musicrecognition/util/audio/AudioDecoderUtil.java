@@ -1,16 +1,16 @@
-package musicrecognition.audio;
+package musicrecognition.util.audio;
 
 import java.util.Arrays;
 
 
-public class AudioDecoder {
+public class AudioDecoderUtil {
     private static final int BITS_IN_BYTE = 8;
-
-
+    
+    
     /**
      * Average multi-channeled audio samples into mono-channeled.
      * */
-    public double[] toMono(double[] samples, int channels) {
+    public static double[] toMono(double[] samples, int channels) {
         if (channels == 1)
             return samples;
 
@@ -27,7 +27,7 @@ public class AudioDecoder {
 
         return downsampled;
     }
-
+    
     /**
      * Gets samples of a given size from a byte array.
      *
@@ -36,7 +36,7 @@ public class AudioDecoder {
      *
      * @throws RuntimeException if sample size is not a multiple of 8
      * */
-    public double[] getSamples(byte[] audioData, int sampleSizeInBits, boolean isBigEndian, int channels) {
+    public static double[] getSamples(byte[] audioData, int sampleSizeInBits, boolean isBigEndian, int channels) {
         if (sampleSizeInBits % BITS_IN_BYTE != 0)
             throw new RuntimeException("sample size is not a multiple of 8");
 
@@ -76,7 +76,7 @@ public class AudioDecoder {
         else
             return samples;
     }
-
+    
     /**
      * Groups samples into frames, where size of a frame is a power of 2 and close or equal to the sample rate.
      *
@@ -85,7 +85,7 @@ public class AudioDecoder {
      * @throws RuntimeException if frame size or overlap size is not a power of 2
      * @throws RuntimeException if overlap size or overlap size is not a power of 2
      * */
-    public double[][] getFrames(double[] samples, int sampleRate, int frameSize, int overlapSize)
+    public static double[][] getFrames(double[] samples, int sampleRate, int frameSize, int overlapSize)
             throws RuntimeException {
         if ((frameSize & (frameSize - 1)) != 0)
             throw new RuntimeException("frame size not a power of 2");

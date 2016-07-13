@@ -1,7 +1,7 @@
-package musicrecognition.audio.audiotypes;
+package musicrecognition.util.audio.audiotypes;
 
-import musicrecognition.IOUtil;
-import musicrecognition.audio.AudioDecoder;
+import musicrecognition.util.IOUtil;
+import musicrecognition.util.audio.AudioDecoderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,21 +15,6 @@ import java.io.IOException;
 
 public abstract class AudioType {
     private static final Logger LOGGER = LogManager.getLogger(AudioType.class);
-
-    protected AudioDecoder decoder;
-
-
-    public AudioType(AudioDecoder decoder) {
-        this.decoder = decoder;
-    }
-
-    public AudioDecoder getDecoder() {
-        return decoder;
-    }
-
-    public void setDecoder(AudioDecoder decoder) {
-        this.decoder = decoder;
-    }
 
     /**
      * Extracts audio data from file.<br>
@@ -51,15 +36,11 @@ public abstract class AudioType {
         return format.getSampleRate();
     }
 
-    public double[] getSamples(File file) throws IOException, UnsupportedAudioFileException {
-        return getSamples(file, decoder);
-    }
-
     /**
      * Extracts samples from audio file. If file stores multi-channeled audio, downsamples it to mono-channeled.<br>
      * Acceptable audio bit rate - multiples of 8.
      * */
-    protected double[] getSamples(File file, AudioDecoder decoder) throws UnsupportedAudioFileException, IOException {
+    public double[] getSamples(File file) throws UnsupportedAudioFileException, IOException {
         if (file == null)
             return null;
 
@@ -82,6 +63,6 @@ public abstract class AudioType {
             audioInputStream.close();
         }
 
-        return decoder.getSamples(bytes, sampleSizeInBits, isBigEndian, channels);
+        return AudioDecoderUtil.getSamples(bytes, sampleSizeInBits, isBigEndian, channels);
     }
 }

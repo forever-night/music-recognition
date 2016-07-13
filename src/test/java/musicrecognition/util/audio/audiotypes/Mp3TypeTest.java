@@ -1,8 +1,6 @@
-package musicrecognition.audio.audiotypes;
+package musicrecognition.util.audio.audiotypes;
 
-import musicrecognition.audio.AudioDecoder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import musicrecognition.util.audio.AudioDecoderUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,23 +9,20 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
 
 
 public class Mp3TypeTest {
     String wav440mono = getClass().getResource("/440Hz_44100Hz_16bit_05sec.mp3").getFile();
 
-    AudioDecoder decoder;
+    AudioDecoderUtil decoder;
     AudioType mp3type;
     File file;
 
 
     @Before
     public void setUp() {
-        decoder = new AudioDecoder();
-        mp3type = new Mp3Type(decoder);
+        decoder = new AudioDecoderUtil();
+        mp3type = new Mp3Type();
         file = new File(wav440mono);
     }
 

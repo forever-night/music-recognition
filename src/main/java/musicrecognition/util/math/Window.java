@@ -1,4 +1,4 @@
-package musicrecognition.math;
+package musicrecognition.util.math;
 
 
 public interface Window {

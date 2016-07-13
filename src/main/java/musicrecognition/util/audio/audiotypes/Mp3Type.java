@@ -1,10 +1,12 @@
-package musicrecognition.audio.audiotypes;
+package musicrecognition.util.audio.audiotypes;
 
-import musicrecognition.audio.AudioDecoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,9 +14,6 @@ import java.io.IOException;
 public class Mp3Type extends AudioType {
     private static final Logger LOGGER = LogManager.getLogger(Mp3Type.class);
 
-    public Mp3Type(AudioDecoder decoder) {
-        super(decoder);
-    }
 
     @Override
     public AudioInputStream getAudioInputStream(File file) throws UnsupportedAudioFileException {
@@ -28,8 +27,11 @@ public class Mp3Type extends AudioType {
         try {
             inputStream = AudioSystem.getAudioInputStream(file);
         } catch (IOException e) {
-            LOGGER.error(e.getStackTrace());
+            LOGGER.error("couldn't get audio input stream from file " + file.getName(), e);
         }
+        
+        if (inputStream == null)
+            return null;
 
 
         inputFormat = inputStream.getFormat();

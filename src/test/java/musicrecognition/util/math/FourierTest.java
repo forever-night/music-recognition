@@ -1,4 +1,4 @@
-package musicrecognition.math;
+package musicrecognition.util.math;
 
 import org.junit.Assert;
 import org.junit.Test;

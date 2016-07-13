@@ -1,12 +1,6 @@
-package musicrecognition.math;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+package musicrecognition.util.math;
 
 public class HannWindow implements Window{
-    private static final Logger LOGGER = LogManager.getLogger(HannWindow.class);
-
     public double[] apply(double[] samples) throws RuntimeException {
         int length = samples.length;
 

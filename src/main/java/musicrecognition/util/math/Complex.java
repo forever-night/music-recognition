@@ -1,4 +1,4 @@
-package musicrecognition.math;
+package musicrecognition.util.math;
 
 /**
  * Implements elementary operations on complex numbers.<br>
