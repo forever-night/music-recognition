@@ -1,8 +1,8 @@
 package musicrecognition.dao;
 
-import musicrecognition.util.TestUtil;
 import musicrecognition.config.TestConfig;
 import musicrecognition.entities.Track;
+import musicrecognition.util.TestUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 

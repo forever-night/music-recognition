@@ -27,8 +27,6 @@ import java.util.Map;
 @WebAppConfiguration
 @Transactional
 public class TrackDaoImplTest {
-    private static final Logger LOGGER = LogManager.getLogger(TrackDaoImplTest.class);
-
     @Autowired
     TrackDao trackDao;
     
@@ -98,9 +96,6 @@ public class TrackDaoImplTest {
         }
 
         List<Map<String, Integer>> matches = trackDao.getTracksByFingerprints(2, new Integer[]{2, 4, 6});
-
-        for (Map<String, Integer> match : matches)
-            LOGGER.info(match);
 
         Assert.assertNotNull(matches);
         Assert.assertTrue(matches.size() == 2);
