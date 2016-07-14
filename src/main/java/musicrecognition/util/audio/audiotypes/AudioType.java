@@ -9,12 +9,12 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 
 public abstract class AudioType {
     private static final Logger LOGGER = LogManager.getLogger(AudioType.class);
+    private static final int MAX_FILE_SIZE = 5242880;       // in bytes
 
     /**
      * Extracts audio data from file.<br>
@@ -39,11 +39,16 @@ public abstract class AudioType {
     /**
      * Extracts samples from audio file. If file stores multi-channeled audio, downsamples it to mono-channeled.<br>
      * Acceptable audio bit rate - multiples of 8.
+     * If input file size exceeds <code>MAX_FILE_SIZE</code>, it is reduced to max size by cutting off the exceeding
+     * bytes.
      * */
     public double[] getSamples(File file) throws UnsupportedAudioFileException, IOException {
         if (file == null)
             return null;
 
+        
+        if (file.length() > MAX_FILE_SIZE)
+            file = reduceFileSize(file);
 
         AudioInputStream audioInputStream = getAudioInputStream(file);
 
@@ -64,5 +69,36 @@ public abstract class AudioType {
         }
 
         return AudioDecoderUtil.getSamples(bytes, sampleSizeInBits, isBigEndian, channels);
+    }
+    
+    /**
+     * Reduces file size to <code>MAX_FILE_SIZE</code>
+     * */
+    private File reduceFileSize(File file) throws IOException {
+        byte buffer[] = new byte[MAX_FILE_SIZE];
+    
+        BufferedInputStream bi = new BufferedInputStream(new FileInputStream(file));
+    
+        try {
+            bi.read(buffer, 0, buffer.length);
+        } catch (IOException e) {
+            LOGGER.info("error reading into buffer");
+        } finally {
+            bi.close();
+        }
+        
+        BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(file));
+        
+        try {
+            bo.write(buffer, 0, buffer.length);
+            bo.flush();
+        } catch (IOException e) {
+            LOGGER.error(e);
+        } finally {
+            bo.close();
+        }
+        
+        LOGGER.info("file reduced");
+        return file;
     }
 }
