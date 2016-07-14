@@ -4,9 +4,7 @@ import musicrecognition.entities.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,20 +13,18 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 
 @Repository
 public class TrackDaoImpl implements TrackDao {
     private static final Logger LOGGER = LogManager.getLogger(TrackDaoImpl.class);
-
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -54,18 +50,20 @@ public class TrackDaoImpl implements TrackDao {
 
     @Override
     public Integer insert(Track track) {
-        String query = "insert into track(title, album_title, artist, year, genre)" +
-                "values (:title, :albumTitle, :artist, :year, :genre)";
-
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(track);
-        namedParameterJdbcTemplate.update(query, parameterSource, keyHolder);
-
-        if (!keyHolder.getKeys().isEmpty())
-            return (Integer) keyHolder.getKeys().get("id");
-        else
-            return null;
+        if (validate(track)) {
+            String query = "INSERT INTO track(title, album_title, artist, year, genre)" +
+                    "VALUES (:title, :albumTitle, :artist, :year, :genre)";
+    
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+    
+            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(track);
+            namedParameterJdbcTemplate.update(query, parameterSource, keyHolder);
+    
+            if (!keyHolder.getKeys().isEmpty())
+                return (Integer) keyHolder.getKeys().get("id");
+        }
+        
+        return null;
     }
 
     @Override
@@ -83,13 +81,17 @@ public class TrackDaoImpl implements TrackDao {
 
     @Override
     public boolean checkIfExists(Track track) {
-        String query = "select count(*) from track t " +
-                "where t.title = :title and t.artist = :artist and t.album_title = :albumTitle and t.year = :year";
-
-        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(track);
-        Integer count = namedParameterJdbcTemplate.queryForObject(query, parameterSource, Integer.class);
-
-        return count > 0;
+        if (validate(track)) {
+            String query = "SELECT count(*) FROM track t " +
+                    "WHERE t.title = :title AND t.artist = :artist AND t.album_title = :albumTitle AND t.year = :year";
+    
+            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(track);
+            Integer count = namedParameterJdbcTemplate.queryForObject(query, parameterSource, Integer.class);
+    
+            return count > 0;
+        }
+        
+        return false;
     }
 
     @Override
@@ -132,5 +134,16 @@ public class TrackDaoImpl implements TrackDao {
         }
 
         return null;
+    }
+    
+    /**
+     * @return true if valid, false if otherwise
+     * */
+    private boolean validate(Track track) {
+        return track != null &&
+                track.getTitle() != null &&
+                track.getArtist() != null &&
+                track.getAlbumTitle() != null &&
+                track.getYear() != null;
     }
 }

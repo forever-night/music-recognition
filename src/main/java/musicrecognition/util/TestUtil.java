@@ -7,6 +7,19 @@ import java.util.Set;
 
 
 public class TestUtil {
+    /**
+     * Creates Track for testing without fingerprints.
+     * */
+    public static Track createSimpleTrack() {
+        Track track = new Track();
+        track.setTitle("test");
+        track.setArtist("artist");
+        track.setAlbumTitle("album");
+        track.setYear(3000);
+        
+        return track;
+    }
+    
     public static Track[] createTracksWithFingerprints(int count) {
         Track[] tracks = new Track[count];
         
@@ -15,6 +28,7 @@ public class TestUtil {
             
             temp.setTitle(String.valueOf(i));
             temp.setArtist(String.valueOf(i));
+            temp.setAlbumTitle(String.valueOf(i));
             temp.setYear(2000 + i);
             
             Set<Integer> fingerprints = new HashSet<>();

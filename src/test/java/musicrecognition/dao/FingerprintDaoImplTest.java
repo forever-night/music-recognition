@@ -33,13 +33,10 @@ public class FingerprintDaoImplTest {
     
     @Before
     public void setUp() {
-        track = new Track();
-        track.setTitle("test");
-        track.setArtist("artist");
-        track.setYear(3000);
+        track = TestUtil.createSimpleTrack();
     }
     
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test
     public void batchInsertFingerprintsByIdTrackNotExists() {
         Set<Integer> fingerprints = new HashSet<>();
         

@@ -37,10 +37,7 @@ public class TrackDaoImplTest {
 
     @Before
     public void setUp() {
-        track = new Track();
-        track.setTitle("test");
-        track.setArtist("artist");
-        track.setYear(3000);
+        track = TestUtil.createSimpleTrack();
     }
 
     @Test
@@ -49,7 +46,7 @@ public class TrackDaoImplTest {
         Assert.assertNotEquals(0, id);
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test
     public void insertTrackDetailsNull() {
         track = new Track();
 
