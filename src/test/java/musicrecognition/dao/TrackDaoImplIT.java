@@ -26,7 +26,7 @@ import java.util.Map;
         classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class TrackDaoImplTest {
+public class TrackDaoImplIT {
     @Autowired
     TrackDao trackDao;
     

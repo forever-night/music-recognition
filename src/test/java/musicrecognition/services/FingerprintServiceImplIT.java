@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class FingerprintServiceImplTest {
+public class FingerprintServiceImplIT {
     @Autowired
     FingerprintService fingerprintService;
     
@@ -35,13 +35,15 @@ public class FingerprintServiceImplTest {
         track = new Track();
         track.setTitle("test");
         track.setArtist("test");
+        track.setAlbumTitle("test");
+        track.setYear(3000);
     }
     
     @Test
     public void insertTrackId0() {
         int actual = fingerprintService.insert(0, new HashSet<>());
     
-        Assert.assertEquals(0, (int)actual);
+        Assert.assertEquals(0, actual);
     }
     
     @Test

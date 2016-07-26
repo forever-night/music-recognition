@@ -22,7 +22,7 @@ import java.util.Set;
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class FingerprintDaoImplTest {
+public class FingerprintDaoImplIT {
     @Autowired
     FingerprintDao fingerprintDao;
     

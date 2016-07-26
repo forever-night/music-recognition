@@ -25,7 +25,9 @@ public class TrackServiceImpl implements TrackService {
     @Override
     @Transactional
     public Integer insert(Track track){
-        if (track != null && track.getTitle() != null && track.getArtist() != null) {
+        if (track != null && track.getTitle() != null && track.getArtist() != null &&
+            track.getFingerprints() != null && !track.getFingerprints().isEmpty()) {
+            
             boolean exists = trackDao.checkIfExists(track);
 
             if (exists) {

@@ -1,6 +1,7 @@
 package musicrecognition.util;
 
 import musicrecognition.entities.Track;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,5 +44,15 @@ public class TestUtil {
         }
         
         return tracks;
+    }
+    
+    public static InternalResourceViewResolver configureViewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/views");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setViewClass(org.springframework.web.servlet.view.JstlView.class);
+        viewResolver.setContentType("text/html;charset=UTF-8");
+    
+        return viewResolver;
     }
 }

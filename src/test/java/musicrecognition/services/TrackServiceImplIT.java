@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = {TestConfig.class})
 @WebAppConfiguration
 @Transactional
-public class TrackServiceImplTest {
+public class TrackServiceImplIT {
     @Autowired
     TrackService trackService;
     
