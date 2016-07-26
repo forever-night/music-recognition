@@ -1,0 +1,17 @@
+.masthead-nav > li > a:hover {
+    border-bottom-color: rgba(0, 204, 255, .3);
+}
+
+
+.masthead-nav > .active > a {
+    color: #5bc0de;
+    border-bottom-color: rgba(0, 204, 255, 0.7);
+}
+
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+    color: #f5f5f5;
+    border-bottom-color: rgba(0, 204, 255, 0.7);
+}
