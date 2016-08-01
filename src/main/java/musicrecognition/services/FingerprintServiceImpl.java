@@ -6,9 +6,12 @@ import musicrecognition.util.audio.audiotypes.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 
 import static musicrecognition.util.audio.AudioAnalysisUtil.fingerprintAll;
@@ -21,29 +24,32 @@ public class FingerprintServiceImpl implements FingerprintService {
     
     @Autowired
     FingerprintDao fingerprintDao;
-        
-    AudioType mp3Type, wavType;
-    
-    public FingerprintServiceImpl() {
-        mp3Type = new Mp3Type();
-        wavType = new WavType();
-    }
-    
+            
     @Override
     public Set<Integer> createFingerprints(File file) {
         String extension = IOUtil.getExtension(file);
     
         int[][] peaks;
+        
+        AudioType.Type audioType;
     
         if (extension.equalsIgnoreCase("mp3"))
-            peaks = getSpectrumPeaks(mp3Type, file);
+            audioType = AudioType.Type.MP3;
         else if (extension.equalsIgnoreCase("wav"))
-            peaks = getSpectrumPeaks(wavType, file);
+            audioType = AudioType.Type.WAV;
         else {
             LOGGER.error("file extension not supported: " + extension);
             return null;
         }
+    
+        peaks = getSpectrumPeaks(audioType.getAudioType(), file);
         
+        return fingerprintAll(peaks);
+    }
+    
+    @Override
+    public Set<Integer> createFingerprints(InputStream inputStream, AudioType.Type type) throws IOException {
+        int[][] peaks = getSpectrumPeaks(type.getAudioType(), inputStream);
         return fingerprintAll(peaks);
     }
     

@@ -56,7 +56,7 @@ public class AudioDecoderUtil {
                 for (int j = 0; j < temp.length; j++)
                     temp[j] = audioData[i + j];
 
-                // order depends on encoding
+                // order depends on endianness
                 if (isBigEndian)
                     for (int j = 0, bytesToShift = sampleSizeInBytes - 1; j < sampleSizeInBytes; j++, bytesToShift--)
                         temp[j] <<= BITS_IN_BYTE * (bytesToShift);

@@ -68,6 +68,9 @@ public class TrackServiceImpl implements TrackService {
                 trackDao.getTracksByFingerprints(
                         MAX_MATCHES,
                         fingerprints.toArray(new Integer[]{}));
+        
+        if (matches == null || matches.isEmpty())
+            return null;
                 
         
         List<Map<Track, Integer>> trackMatches = new ArrayList<>();

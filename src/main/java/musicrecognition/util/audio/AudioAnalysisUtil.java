@@ -6,10 +6,12 @@ import musicrecognition.util.math.Window;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static musicrecognition.util.audio.AudioDecoderUtil.getFrames;
 import static musicrecognition.util.audio.AudioMathUtil.*;
@@ -18,8 +20,9 @@ import static musicrecognition.util.audio.AudioMathUtil.*;
 public class AudioAnalysisUtil {
     private static final Logger LOGGER = LogManager.getLogger(AudioAnalysisUtil.class);
     private static final int MAX_FINGERPRINT_NEIGHBORS = 10;
+    private static final int DEFAULT_SAMPLE_RATE = 44100;
     
-    private static Window hannWindow;
+    private static Window hannWindow = new HannWindow();
     
     
     /**
@@ -29,17 +32,14 @@ public class AudioAnalysisUtil {
      * Typically there are 2-3 peaks per second.
      * */
     public static int[][] getSpectrumPeaks(AudioType type, File file) {
-        hannWindow = new HannWindow();
-
-
         double[] samples = null;
         int sampleRate = 0;
 
         try {
-            samples = type.getSamples(file);
+            samples = type.getSamples(file, AudioType.MAX_FILE_SIZE);
             sampleRate = (int) type.getSampleRate(file);
-        } catch (IOException | UnsupportedAudioFileException e) {
-            LOGGER.error(e.getStackTrace());
+        } catch (IOException e) {
+            LOGGER.error("io exception", e);
         }
 
         if (sampleRate == 0 || samples == null)
@@ -63,6 +63,51 @@ public class AudioAnalysisUtil {
 
         LOGGER.info("frames fft " + frames.length + " x " + frames[0].length);
 
+        return AudioMathUtil.getSpectrumPeaks(frames, sampleRate, frameSize, overlapSize);
+    }
+    
+    public static int[][] getSpectrumPeaks(AudioType type, InputStream inputStream) throws IOException {
+        if (inputStream == null)
+            return null;
+        
+        
+        double[] samples = null;
+        int sampleRate = 0;
+    
+        try {
+            sampleRate = (int) type.getSampleRate(inputStream);
+            samples = type.getSamples(inputStream, AudioType.MAX_FILE_SIZE);
+                        
+            if (sampleRate == 0)
+                sampleRate = DEFAULT_SAMPLE_RATE;
+        } catch (IOException e) {
+            LOGGER.error("io exception", e);
+        } finally {
+            if (inputStream != null)
+                inputStream.close();
+        }
+    
+        if (samples == null)
+            return null;
+    
+    
+        int frameSize = getFrameSize(sampleRate);
+        int overlapSize = getOverlapSize(frameSize);
+    
+        LOGGER.info("sample rate " + sampleRate);
+        LOGGER.info("frame size " + frameSize);
+        LOGGER.info("overlap " + overlapSize);
+    
+    
+        double[][] frames = getFrames(samples, sampleRate, frameSize, overlapSize);
+        frames = applyWindowFunction(hannWindow, frames);
+    
+        LOGGER.info("frames " + frames.length + " x " + frames[0].length);
+    
+        frames = applyFFT(frames, sampleRate);
+    
+        LOGGER.info("frames fft " + frames.length + " x " + frames[0].length);
+    
         return AudioMathUtil.getSpectrumPeaks(frames, sampleRate, frameSize, overlapSize);
     }
         
