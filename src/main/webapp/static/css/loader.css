@@ -1,0 +1,188 @@
+.cssload-container *, .cssload-container *:before, .cssload-container *:after{
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.cssload-container {
+    margin: 49px auto;
+    width: 58px;
+    height: 29px;
+}
+.cssload-container > div {
+    float: left;
+    background: rgb(49,112,143);
+    height: 100%;
+    width: 5px;
+    margin-right: 1px;
+    display: inline-block;
+}
+
+.cssload-container .cssload-shaft1 {
+    animation-delay: 0.09s;
+    -o-animation-delay: 0.09s;
+    -ms-animation-delay: 0.09s;
+    -webkit-animation-delay: 0.09s;
+    -moz-animation-delay: 0.09s;
+}
+.cssload-container .cssload-shaft2 {
+    animation-delay: 0.18s;
+    -o-animation-delay: 0.18s;
+    -ms-animation-delay: 0.18s;
+    -webkit-animation-delay: 0.18s;
+    -moz-animation-delay: 0.18s;
+}
+.cssload-container .cssload-shaft3 {
+    animation-delay: 0.26s;
+    -o-animation-delay: 0.26s;
+    -ms-animation-delay: 0.26s;
+    -webkit-animation-delay: 0.26s;
+    -moz-animation-delay: 0.26s;
+}
+.cssload-container .cssload-shaft4 {
+    animation-delay: 0.35s;
+    -o-animation-delay: 0.35s;
+    -ms-animation-delay: 0.35s;
+    -webkit-animation-delay: 0.35s;
+    -moz-animation-delay: 0.35s;
+}
+.cssload-container .cssload-shaft5 {
+    animation-delay: 0.44s;
+    -o-animation-delay: 0.44s;
+    -ms-animation-delay: 0.44s;
+    -webkit-animation-delay: 0.44s;
+    -moz-animation-delay: 0.44s;
+}
+.cssload-container .cssload-shaft6 {
+    animation-delay: 0.53s;
+    -o-animation-delay: 0.53s;
+    -ms-animation-delay: 0.53s;
+    -webkit-animation-delay: 0.53s;
+    -moz-animation-delay: 0.53s;
+}
+.cssload-container .cssload-shaft7 {
+    animation-delay: 0.61s;
+    -o-animation-delay: 0.61s;
+    -ms-animation-delay: 0.61s;
+    -webkit-animation-delay: 0.61s;
+    -moz-animation-delay: 0.61s;
+}
+.cssload-container .cssload-shaft8 {
+    animation-delay: 0.7s;
+    -o-animation-delay: 0.7s;
+    -ms-animation-delay: 0.7s;
+    -webkit-animation-delay: 0.7s;
+    -moz-animation-delay: 0.7s;
+}
+.cssload-container .cssload-shaft9 {
+    animation-delay: 0.79s;
+    -o-animation-delay: 0.79s;
+    -ms-animation-delay: 0.79s;
+    -webkit-animation-delay: 0.79s;
+    -moz-animation-delay: 0.79s;
+}
+.cssload-container .cssload-shaft10 {
+    animation-delay: 0.88s;
+    -o-animation-delay: 0.88s;
+    -ms-animation-delay: 0.88s;
+    -webkit-animation-delay: 0.88s;
+    -moz-animation-delay: 0.88s;
+}
+
+.cssload-container {
+    height: 39px;
+    width: 88px;
+    overflow: hidden;
+}
+.cssload-container > div {
+    width: 8px;
+    position: relative;
+    bottom: -2px;
+    margin-top: 36px;
+    height: 3px;
+    transform: skewY(0deg);
+    animation: cssload-wave 2.63s infinite ease-in-out;
+    -o-animation: cssload-wave 2.63s infinite ease-in-out;
+    -ms-animation: cssload-wave 2.63s infinite ease-in-out;
+    -webkit-animation: cssload-wave 2.63s infinite ease-in-out;
+    -moz-animation: cssload-wave 2.63s infinite ease-in-out;
+}
+
+
+
+@keyframes cssload-wave {
+    25% {
+        transform: skewY(25deg);
+    }
+    50% {
+        height: 100%;
+        margin-top: 0;
+        background: rgb(0,204,255);
+        transform: skewY(0);
+    }
+    75% {
+        transform: skewY(-25deg);
+    }
+}
+
+@-o-keyframes cssload-wave {
+    25% {
+        -o-transform: skewY(25deg);
+    }
+    50% {
+        height: 100%;
+        margin-top: 0;
+        background: rgb(0,204,255);
+        -o-transform: skewY(0);
+    }
+    75% {
+        -o-transform: skewY(-25deg);
+    }
+}
+
+@-ms-keyframes cssload-wave {
+    25% {
+        -ms-transform: skewY(25deg);
+    }
+    50% {
+        height: 100%;
+        margin-top: 0;
+        background: rgb(0,204,255);
+        -ms-transform: skewY(0);
+    }
+    75% {
+        -ms-transform: skewY(-25deg);
+    }
+}
+
+@-webkit-keyframes cssload-wave {
+    25% {
+        -webkit-transform: skewY(25deg);
+    }
+    50% {
+        height: 100%;
+        margin-top: 0;
+        background: rgb(0,204,255);
+        -webkit-transform: skewY(0);
+    }
+    75% {
+        -webkit-transform: skewY(-25deg);
+    }
+}
+
+@-moz-keyframes cssload-wave {
+    25% {
+        -moz-transform: skewY(25deg);
+    }
+    50% {
+        height: 100%;
+        margin-top: 0;
+        background: rgb(0,204,255);
+        -moz-transform: skewY(0);
+    }
+    75% {
+        -moz-transform: skewY(-25deg);
+    }
+}

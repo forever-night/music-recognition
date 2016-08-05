@@ -2,7 +2,7 @@
 <%@ tag description="Main template" pageEncoding="UTF-8" %>
 <%@ attribute name="head" fragment="true" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,11 +17,13 @@
 
     <script src="<c:url value="/static/js/lib/jquery-2.2.3.js"/>"></script>
     <script src="<c:url value="/static/js/lib/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/static/js/lib/angular.min.js"/>"></script>
+
     <script src="<c:url value="/static/js/controllers/controllers.js"/>"></script>
 
     <jsp:invoke fragment="head"/>
 </head>
-<body>
+<body ng-cloak ng-controller="MainCtrl">
 <div class="site-wrapper">
     <div class="site-wrapper-inner">
         <div class="cover-container">

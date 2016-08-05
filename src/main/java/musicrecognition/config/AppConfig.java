@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 
 
 @Configuration
-@Import({DataConfig.class, JdbcConfig.class, WebConfig.class, WebSecurityConfig.class})
+@Import({DataConfig.class, JdbcConfig.class, WebConfig.class})
 @ComponentScan("musicrecognition")
 public class AppConfig {
     

@@ -4,17 +4,37 @@
 
 <t:template>
     <jsp:attribute name="head">
+        <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/loader.css"/>"/>
+
         <script src="<c:url value="/static/js/controllers/identifyController.js"/>"></script>
         <title>Identify audio</title>
+        <%--<meta name="_csrf" content="${_csrf.token}"/>--%>
+        <%--<meta name="_csrf_header" content="${_csrf.headerName}"/>--%>
     </jsp:attribute>
     <jsp:body>
-        <h2>Upload a file to identify</h2><br>
-        <p class="lead center-block" style="margin-top:2em;">
-            <a href="#" class="btn btn-lg btn-info">Identify</a>
-        </p>
-        <h6>
-            Supported formats: <b>.MP3</b>, <b>.WAV</b><br>
-            Maximum file size: <b>5</b> MB
-        </h6>
+        <div ng-controller="IdentifyCtrl">
+            <h2>Upload a file to identify</h2><br>
+            <form class="center-block" style="margin-top:2em;" method="post" enctype="multipart/form-data">
+                <input id="file" type="file" file-model="file" class="center-block"/><br>
+                <button id="btnIdentify" ng-click="uploadFile()" class="btn btn-lg btn-info">Identify</button>
+            </form>
+            <h6 id="info">
+                Supported formats: <b>.MP3</b>, <b>.WAV</b><br>
+                Maximum file size: <b>5</b> MB
+            </h6>
+            <div id="loader">
+                <div class="cssload-shaft1"></div>
+                <div class="cssload-shaft2"></div>
+                <div class="cssload-shaft3"></div>
+                <div class="cssload-shaft4"></div>
+                <div class="cssload-shaft5"></div>
+                <div class="cssload-shaft6"></div>
+                <div class="cssload-shaft7"></div>
+                <div class="cssload-shaft8"></div>
+                <div class="cssload-shaft9"></div>
+                <div class="cssload-shaft10"></div>
+            </div>
+            <div id="status" role="alert" style="visibility: hidden;"></div>
+        </div>
     </jsp:body>
 </t:template>
