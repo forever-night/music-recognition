@@ -1,6 +1,7 @@
 package musicrecognition.services;
 
 import musicrecognition.dao.TrackDao;
+import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,7 +60,7 @@ public class TrackServiceImpl implements TrackService {
     
     @Override
     @Transactional
-    public List<Map<Track, Integer>> getTracksByFingerprints(Set<Integer> fingerprints) {
+    public List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
         if (fingerprints == null || fingerprints.isEmpty())
             return null;
         
@@ -71,15 +72,16 @@ public class TrackServiceImpl implements TrackService {
         
         if (matches == null || matches.isEmpty())
             return null;
-                
         
-        List<Map<Track, Integer>> trackMatches = new ArrayList<>();
+        
+        List<TrackMatch> trackMatches = new ArrayList<>();
         
         for (Map<String, Integer> match : matches) {
-            Track track = trackDao.getById(match.get("trackId"));
-            int matchCount = match.get("matchCount");
+            TrackMatch trackMatch = new TrackMatch();
             
-            trackMatches.add(Collections.singletonMap(track, matchCount));
+            trackMatch.setTrack(trackDao.getById(match.get("trackId")));
+            trackMatch.setMatchCount(match.get("matchCount"));
+            trackMatches.add(trackMatch);
         }
         
         return trackMatches;

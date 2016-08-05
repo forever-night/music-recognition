@@ -1,6 +1,7 @@
 package musicrecognition.services;
 
 import musicrecognition.config.TestConfig;
+import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,9 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
-import static org.junit.Assert.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -54,7 +55,7 @@ public class TrackServiceImplIT {
     
     @Test
     public void getTracksByFingerprintsNull() {
-        List<Map<Track, Integer>> actual = trackService.getTracksByFingerprints(null);
+        List<TrackMatch> actual = trackService.getTracksByFingerprints(null);
         Assert.assertNull(actual);
     }
     
@@ -62,7 +63,7 @@ public class TrackServiceImplIT {
     public void getTracksByFingerprintsEmpty() {
         Set<Integer> fingerprints = new HashSet<>();
         
-        List<Map<Track, Integer>> actual = trackService.getTracksByFingerprints(fingerprints);
+        List<TrackMatch> actual = trackService.getTracksByFingerprints(fingerprints);
         Assert.assertNull(actual);
     }
     
@@ -74,10 +75,10 @@ public class TrackServiceImplIT {
         int expectedId = trackService.insert(track);
         track.setId(expectedId);
         
-        List<Map<Track, Integer>> actual = trackService.getTracksByFingerprints(fingerprints);
+        List<TrackMatch> actual = trackService.getTracksByFingerprints(fingerprints);
         
         Assert.assertFalse(actual.isEmpty());
-        Assert.assertTrue(actual.get(0).containsKey(track));
+        Assert.assertEquals(track, actual.get(0).getTrack());
     }
     
     private Set<Integer> generateFingerprints() {

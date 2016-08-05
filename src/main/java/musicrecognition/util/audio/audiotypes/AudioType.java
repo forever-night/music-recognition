@@ -33,6 +33,12 @@ public abstract class AudioType {
         public AudioType getAudioType() {
             return this.audioType;
         }
+    
+    
+        @Override
+        public String toString() {
+            return name().toUpperCase();
+        }
     }
     
     
