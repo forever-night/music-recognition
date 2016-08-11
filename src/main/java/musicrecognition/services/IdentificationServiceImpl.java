@@ -1,16 +1,12 @@
 package musicrecognition.services;
 
 import musicrecognition.dto.TrackMatch;
-import musicrecognition.entities.Track;
 import musicrecognition.util.audio.audiotypes.AudioType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -23,22 +19,18 @@ public class IdentificationServiceImpl implements IdentificationService {
     TrackService trackService;
     
     @Override
-    public List<TrackMatch> identify(File file) {
-        Set<Integer> fingerprints = fingerprintService.createFingerprints(file);
+    public List<TrackMatch> identify(File file, AudioType.Type type) {
+        Set<Integer> fingerprints = fingerprintService.createFingerprints(file, type);
     
-        return getTracksByFingerprints(fingerprints);
-    }
-    
-    @Override
-    public List<TrackMatch> identify(InputStream inputStream, AudioType.Type type) throws IOException {
-        Set<Integer> fingerprints = fingerprintService.createFingerprints(inputStream, type);
-        
         return getTracksByFingerprints(fingerprints);
     }
     
     private List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
         List<TrackMatch> trackMatches = trackService.getTracksByFingerprints(fingerprints);
     
+        if (trackMatches == null || trackMatches.isEmpty())
+            return null;
+        
         for (TrackMatch trackMatch : trackMatches)
             trackMatch.setFingerprintCount(fingerprints.size());
     

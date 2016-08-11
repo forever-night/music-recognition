@@ -3,6 +3,7 @@ package musicrecognition.services;
 import musicrecognition.dao.TrackDao;
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
+import musicrecognition.util.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import java.util.*;
 @Service
 public class TrackServiceImpl implements TrackService {
     private static final Logger LOGGER = LogManager.getLogger(TrackServiceImpl.class);
-    private static final int MAX_MATCHES = 5;
-
+    
     @Autowired
     TrackDao trackDao;
     
@@ -67,7 +67,7 @@ public class TrackServiceImpl implements TrackService {
         
         List<Map<String, Integer>> matches =
                 trackDao.getTracksByFingerprints(
-                        MAX_MATCHES,
+                        Global.MAX_FINGERPRINT_MATCHES,
                         fingerprints.toArray(new Integer[]{}));
         
         if (matches == null || matches.isEmpty())

@@ -37,7 +37,7 @@ public class AudioAnalysisUtilTest {
 
     @Test
     public void getSpectrumPeaksMp3MonoOneFrequency() {
-        int[][] actualPeaks = getSpectrumPeaks(mp3Type, mp3440);
+        int[][] actualPeaks = getSpectrumPeaks(mp3440, mp3Type);
 
         for (int[] peak : actualPeaks)
             Assert.assertEquals(440, peak[0], 1);
@@ -48,8 +48,8 @@ public class AudioAnalysisUtilTest {
      * */
     @Test
     public void getSpectrumPeaksWavMp3SameAudio() {
-        int[][] actualWav = getSpectrumPeaks(wavType, wav440);
-        int[][] actualMp3 = getSpectrumPeaks(mp3Type, mp3440);
+        int[][] actualWav = getSpectrumPeaks(wav440, wavType);
+        int[][] actualMp3 = getSpectrumPeaks(mp3440, mp3Type);
 
         assert actualMp3.length == actualWav.length;
 
@@ -60,7 +60,7 @@ public class AudioAnalysisUtilTest {
 
     @Test
     public void getSpectrumPeaks440Hz() {
-        int[][] actualPeaks = getSpectrumPeaks(wavType, wav440);
+        int[][] actualPeaks = getSpectrumPeaks(wav440, wavType);
 
         for (int[] peak : actualPeaks)
             Assert.assertEquals(440, peak[0], 1);
@@ -70,8 +70,8 @@ public class AudioAnalysisUtilTest {
     public void getSpectrumPeaks440HzNoise() {
         File wav440Noise = new File(file440NoiseWav);
 
-        int[][] actualPeaksNoNoise = getSpectrumPeaks(wavType, wav440);
-        int[][] actualPeaksNoise = getSpectrumPeaks(wavType, wav440Noise);
+        int[][] actualPeaksNoNoise = getSpectrumPeaks(wav440, wavType);
+        int[][] actualPeaksNoise = getSpectrumPeaks(wav440Noise, wavType);
 
         for (int i = 0; i < actualPeaksNoise.length; i++)
             Assert.assertEquals(actualPeaksNoNoise[i][0], actualPeaksNoise[i][0], 1);

@@ -34,13 +34,6 @@ public class Mp3TypeTest {
     }
     
     @Test
-    public void getSampleRateStreamNull() {
-        int actual = (int) mp3type.getSampleRate((InputStream) null);
-        
-        Assert.assertEquals(0, actual);
-    }
-    
-    @Test
     public void getSampleRateNot0FromFile() {
         int actual = (int) mp3type.getSampleRate(file);
 
@@ -48,25 +41,9 @@ public class Mp3TypeTest {
     }
     
     @Test
-    public void getSampleRateNot0FromStream() throws FileNotFoundException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        int actual = (int) mp3type.getSampleRate(inputStream);
-        
-        Assert.assertEquals(44100, actual);
-    }
-    
-    @Test
     public void getAudioInputStreamFileNotNull() throws IOException, UnsupportedAudioFileException {
         AudioInputStream actual = mp3type.getAudioInputStream(file);
 
-        Assert.assertNotNull(actual);
-    }
-    
-    @Test
-    public void getAudioInputStreamFromStreamNotNull() throws IOException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        AudioInputStream actual = mp3type.getAudioInputStream(inputStream);
-        
         Assert.assertNotNull(actual);
     }
     
@@ -79,45 +56,11 @@ public class Mp3TypeTest {
     }
     
     @Test
-    public void getSamplesStreamNotNull() throws IOException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        double[] actual = mp3type.getSamples(inputStream);
-        
-        Assert.assertNotNull(actual);
-    }
-    
-    @Test
-    public void getSamplesFromStreamEqualsGetSamplesFromFile() throws IOException, UnsupportedAudioFileException {
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        
-        double[] actualFile = mp3type.getSamples(file);
-        double[] actualStream = mp3type.getSamples(inputStream);
-        
-        inputStream.close();
-        
-        Assert.assertArrayEquals(actualFile, actualStream, 1);
-    }
-    
-    @Test
     public void getSamplesFromFileWithLimit() throws IOException, UnsupportedAudioFileException {
         int maxSize = 225280;   // 220 kB, half of the file used
         
         double[] actualX2 = mp3type.getSamples(file);
         double[] actual = mp3type.getSamples(file, maxSize);
-        
-        Assert.assertEquals(actualX2.length / 2, actual.length, maxSize / 10);
-        Assert.assertArrayEquals(Arrays.copyOfRange(actualX2, 0, actual.length), actual, 1);
-    }
-    
-    @Test
-    public void getSamplesFromStreamWithLimit() throws IOException {
-        int maxSize = 225280;   // 220 kB, half of the file used
-    
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        double[] actualX2 = mp3type.getSamples(inputStream);
-    
-        inputStream = new BufferedInputStream(new FileInputStream(file));
-        double[] actual = mp3type.getSamples(inputStream, maxSize);
         
         Assert.assertEquals(actualX2.length / 2, actual.length, maxSize / 10);
         Assert.assertArrayEquals(Arrays.copyOfRange(actualX2, 0, actual.length), actual, 1);

@@ -1,7 +1,6 @@
 package musicrecognition.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,13 +33,5 @@ public class IOUtil {
         }
         
         return outputStream.toByteArray();
-    }
-    
-    public static String getExtension(File file) {
-        String fileName = file.getName();
-        
-        int index = fileName.lastIndexOf(".");
-        
-        return fileName.substring(index + 1);
     }
 }

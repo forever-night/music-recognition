@@ -12,32 +12,7 @@ import java.io.InputStream;
 
 public class WavType extends AudioType {
     private static final Logger LOGGER = LogManager.getLogger(WavType.class);
-    
-    
-    @Override
-    public AudioInputStream getAudioInputStream(InputStream inputStream) throws IOException {
-        if (inputStream == null)
-            return null;
         
-        
-        AudioFileFormat fileFormat = null;
-        
-        try {
-            fileFormat = AudioSystem.getAudioFileFormat(inputStream);
-        } catch (UnsupportedAudioFileException e) {
-            LOGGER.error("unsupported audio file");
-        }
-        
-        if (fileFormat == null)
-            return null;
-        
-        
-        AudioFormat format = fileFormat.getFormat();
-        long length = fileFormat.getFrameLength();
-        
-        return new AudioInputStream(inputStream, format, length);
-    }
-    
     @Override
     public AudioInputStream getAudioInputStream(File file) throws UnsupportedAudioFileException{
         if (file == null)
