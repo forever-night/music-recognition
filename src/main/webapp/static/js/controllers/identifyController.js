@@ -1,66 +1,56 @@
-app.controller('IdentifyCtrl', function($scope, $http, $window, ElementService, LoaderService) {
+app.controller('IdentifyCtrl', function($scope, $window, StatusService, ElementService, LoaderService, MultipartService) {
     var statusElement = document.getElementById('status');
     var loaderElement = document.getElementById('loader');
-    var btnIdentifyElement = document.getElementById('btnIdentify');
-    var fileElement = document.getElementById('file');
-    var infoElement = document.getElementById('info');
+    var headerTextElement = document.getElementById('txtHead');
+    var formElement = document.getElementById('form');
     // var csrfToken = document.getElementsByName('_csrf')[0].content;
 
 
     $scope.uploadFile = function() {
-        LoaderService.loader(loaderElement, false);
-        ElementService.hide(statusElement);
+        if ($scope.file == null)
+            StatusService.setStatus(statusElement, false, message.fieldEmpty);
+
 
         var file = $scope.file;
-        var fd = new FormData();
-        fd.append('file', file);
 
-        ElementService.hide(btnIdentifyElement);
-        ElementService.hide(fileElement);
-        ElementService.hide(infoElement);
-        LoaderService.loader(loaderElement, true);
-
-        $scope.postFile(fd);
-    };
-
-    $scope.postFile = function(formData) {
-        var config = {
-            transformRequest: angular.identity,
-            headers: {
-                'Content-Type': undefined
-                // 'X-CSRF-TOKEN' : csrfToken
-            }
-        };
-
-        $http.post(url.uploadIdentify, formData, config).then(
-            function success(response){
+        MultipartService.postMultipart(url.uploadIdentify, file).then(
+            function success(response) {
                 sessionStorage.setItem('trackMatches', JSON.stringify(response.data));
                 $window.location.href = url.result;
             },
-            function error(response) {
+            function error(response){
                 LoaderService.loader(loaderElement, false);
-                ElementService.show(statusElement);
-                ElementService.show(fileElement);
-                ElementService.show(infoElement);
-                ElementService.show(btnIdentifyElement);
+                ElementService.display(headerTextElement, 'block');
+                ElementService.display(formElement, 'block');
+                ElementService.display(statusElement, 'block');
 
                 switch (response.status) {
+                    case 204:
+                        StatusService.setStatus(statusElement, false, message.noContent);
+                        break;
                     case 415:
-                        ElementService.setStatus(statusElement, false, errorMessage.unsupportedType);
+                        StatusService.setStatus(statusElement, false, message.unsupportedType);
                         break;
                     case 500:
-                        ElementService.setStatus(statusElement, false, errorMessage.io);
+                        StatusService.setStatus(statusElement, false, message.io);
                         break;
                     default:
-                        ElementService.setStatus(statusElement, false, 'error ' + response.status);
+                        StatusService.setStatus(statusElement, false, 'error ' + response.status);
                 }
             }
         );
+
+        ElementService.hide(headerTextElement);
+        ElementService.hide(formElement);
+        LoaderService.loader(loaderElement, true);
     };
 
 
     $window.onload = function() {
         loadNavElements();
         setActive(navElements.identify);
-    }
+    };
+
+    LoaderService.loader(loaderElement, false);
+    ElementService.hide(statusElement);
 });

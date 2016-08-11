@@ -1,6 +1,8 @@
 app.controller('ResultCtrl', function($scope, $window){
     var trackMatchesJson = JSON.parse(sessionStorage.getItem('trackMatches'));
 
+    console.log(trackMatchesJson);
+
     $scope.matches = [];
 
     $scope.getPercentage = function(matchCount, fingerprintCount) {
@@ -18,21 +20,24 @@ app.controller('ResultCtrl', function($scope, $window){
         loadNavElements();
     };
 
-    trackMatchesJson.forEach(function(trackMatch, i, trackMatchesJson){
-        var match = new TrackMatch();
-        match.title = trackMatch.track.title;
-        match.albumTitle = trackMatch.track.albumTitle;
-        match.artist = trackMatch.track.artist;
-        match.year = trackMatch.track.year;
-        match.matchCount = trackMatch.matchCount;
-        match.fingerprintCount = trackMatch.fingerprintCount;
-        match.percentage = $scope.getPercentage(match.matchCount, match.fingerprintCount);
 
-        if (trackMatch.track.genre != null)
-            match.genres = trackMatch.track.genre.split(',');
-        else
-            match.genres = null;
+    if (trackMatchesJson.length != 0 && trackMatchesJson != '{}') {
+        trackMatchesJson.forEach(function (trackMatch, i, trackMatchesJson) {
+            var match = new TrackMatch();
+            match.title = trackMatch.track.title;
+            match.albumTitle = trackMatch.track.albumTitle;
+            match.artist = trackMatch.track.artist;
+            match.year = trackMatch.track.year;
+            match.matchCount = trackMatch.matchCount;
+            match.fingerprintCount = trackMatch.fingerprintCount;
+            match.percentage = $scope.getPercentage(match.matchCount, match.fingerprintCount);
 
-        $scope.matches.push(match);
-    });
+            if (trackMatch.track.genre != null)
+                match.genres = trackMatch.track.genre.split(',');
+            else
+                match.genres = null;
+
+            $scope.matches.push(match);
+        });
+    }
 });

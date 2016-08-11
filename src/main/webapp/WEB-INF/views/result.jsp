@@ -12,10 +12,12 @@
     </jsp:attribute>
     <jsp:body>
         <div ng-controller="ResultCtrl">
-            <ul class="list-group">
+            <ul class="list-group" ng-if="matches.length > 0">
                 <li class="list-group-item cover-override" ng-repeat="match in matches"
                     ng-class="{'list-group-item-info':$first, 'cover-text-override':!$first}" style="text-shadow:none;">
-                        <span class="badge">{{match.percentage}}% </span>
+                    <span class="badge">{{match.percentage}}% </span>
+                    <p>
+                        <span class="glyphicon glyphicon-music" ng-if="$first"></span>
                         <strong>{{match.title}}</strong> - {{match.artist}}
                     </p>
                     <p>{{match.albumTitle}}, {{match.year}}</p>
@@ -24,7 +26,13 @@
                     </div>
                 </li>
             </ul>
-            <p class="center-block"><a href="<c:url value="/identify"/>">Go back!</a></p>
+            <p ng-if="matches.length == 0">
+                <span class="glyphicon glyphicon-ice-lolly-tasted"></span> No match found.
+            </p>
+            <p class="center-block" style="margin-top: 2em;"><a href="<c:url value="/identify"/>">
+                <span class="glyphicon glyphicon-backward"></span> Go back!
+                <span class="glyphicon glyphicon-backward"></span>
+            </a></p>
         </div>
     </jsp:body>
 </t:template>

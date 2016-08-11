@@ -13,15 +13,17 @@
     </jsp:attribute>
     <jsp:body>
         <div ng-controller="IdentifyCtrl">
-            <h2>Upload a file to identify</h2><br>
-            <form class="center-block" style="margin-top:2em;" method="post" enctype="multipart/form-data">
-                <input id="file" type="file" file-model="file" class="center-block"/><br>
-                <button id="btnIdentify" ng-click="uploadFile()" class="btn btn-lg btn-info">Identify</button>
+            <h2 id="txtHead">Upload a file to identify</h2><br>
+            <form id="form" class="center-block" style="margin-top:2em;" method="post" enctype="multipart/form-data">
+                <input id="file" type="file" name="file" file-model="file" class="center-block" required/><br>
+                <button ng-click="uploadFile()" class="btn btn-lg btn-info">
+                    Identify <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+                <h6>
+                    Supported formats: <b>.MP3</b>, <b>.WAV</b><br>
+                    Maximum file size: <b>15</b> MB
+                </h6>
             </form>
-            <h6 id="info">
-                Supported formats: <b>.MP3</b>, <b>.WAV</b><br>
-                Maximum file size: <b>5</b> MB
-            </h6>
             <div id="loader">
                 <div class="cssload-shaft1"></div>
                 <div class="cssload-shaft2"></div>
@@ -34,7 +36,9 @@
                 <div class="cssload-shaft9"></div>
                 <div class="cssload-shaft10"></div>
             </div>
-            <div id="status" role="alert" style="visibility: hidden;"></div>
+            <div class="col-sm-12">
+                <div id="status" role="alert" style="display: none;"></div>
+            </div>
         </div>
     </jsp:body>
 </t:template>
