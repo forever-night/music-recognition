@@ -7,14 +7,18 @@ navElements = {
     add : null
 };
 
-errorMessage = {
+message = {
     unsupportedType: 'Unsupported audio type',
     internal: 'Internal server error',
-    io: 'Error in reading file'
+    io: 'Error in reading file',
+    noContent: 'File not selected',
+    fieldEmpty: 'One of the fields is empty'
 };
 
 url = {
     uploadIdentify: '/musrec/upload?identify',
+    uploadAdd: '/musrec/upload?add',
+    addStatus: '/musrec/add?status',
     result: '/musrec/result'
 };
 
@@ -40,27 +44,30 @@ app.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 
+app.service('StatusService', function(ElementService) {
+    this.setStatus = function(statusElement, isSuccessful, text) {
+        var cssClass;
+
+        if (isSuccessful)
+            cssClass = 'alert alert-success col-sm-8 col-sm-offset-2';
+        else
+            cssClass = 'alert alert-danger col-sm-8 col-sm-offset-2';
+
+        ElementService.display(statusElement);
+        statusElement.setAttribute('class', cssClass);
+        statusElement.innerText = text;
+    };
+});
+
+
 app.service('ElementService', function() {
-   this.setStatus = function(statusElement, isSuccessful, text) {
-       var cssClass;
-
-       if (isSuccessful)
-           cssClass = 'alert alert-info';
-       else
-           cssClass = 'alert alert-danger';
-
-       statusElement.style.visibility = 'visible';
-       statusElement.setAttribute('class', cssClass);
-       statusElement.innerText = text;
-   };
-
    this.hide = function(element) {
-       element.style.visibility = 'hidden';
+       element.style.display = 'none';
    };
 
-   this.show = function(element) {
-       element.style.visibility = 'visible';
-   }
+   this.display = function(element, value) {
+       element.style.display = value;
+   };
 });
 
 
@@ -73,6 +80,35 @@ app.service('LoaderService', function() {
         else
             loaderElement.setAttribute('class', '');
     }
+});
+
+
+app.service('MultipartService', function($http) {
+    this.postMultipart = function(url, file) {
+        var config = {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+                // 'X-CSRF-TOKEN' : csrfToken
+            }
+        };
+
+        var fd = new FormData();
+        fd.append('file', file);
+
+        return $http.post(url, fd, config);
+    };
+
+    this.postMixedMultipart = function(url, formData) {
+        var config = {
+            headers: {
+                'Content-Type': undefined
+                // 'X-CSRF-TOKEN' : csrfToken
+            }
+        };
+
+        return $http.post(url, formData, config);
+    };
 });
 
 

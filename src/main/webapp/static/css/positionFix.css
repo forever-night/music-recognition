@@ -1,0 +1,11 @@
+.mastfoot {
+    position:static;
+}
+
+.masthead {
+    position:static;
+}
+
+.masthead + .cover {
+    padding-top:3em;
+}
