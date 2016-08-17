@@ -24,5 +24,5 @@ public class Global {
     public static final int DEFAULT_SAMPLE_RATE = 41000;
     public static final int MAX_FILE_SIZE = 15728640;       // 15 MB
     public static final int MAX_FINGERPRINT_PAIRS = 10;
-    public static final int MAX_FINGERPRINT_MATCHES = 5;
+    public static final int MAX_FINGERPRINT_MATCHES = 4;
 }

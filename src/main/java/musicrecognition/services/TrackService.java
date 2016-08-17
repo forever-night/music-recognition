@@ -12,5 +12,7 @@ public interface TrackService {
 
     Track getById(Integer id);
     
+    List<TrackMatch> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints);
+    
     List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints);
 }

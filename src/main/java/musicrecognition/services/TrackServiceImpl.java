@@ -60,15 +60,13 @@ public class TrackServiceImpl implements TrackService {
     
     @Override
     @Transactional
-    public List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
+    public List<TrackMatch> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints) {
         if (fingerprints == null || fingerprints.isEmpty())
             return null;
         
         
         List<Map<String, Integer>> matches =
-                trackDao.getTracksByFingerprints(
-                        Global.MAX_FINGERPRINT_MATCHES,
-                        fingerprints.toArray(new Integer[]{}));
+                trackDao.getTracksByFingerprints(maxMatches, fingerprints.toArray(new Integer[]{}));
         
         if (matches == null || matches.isEmpty())
             return null;
@@ -85,5 +83,10 @@ public class TrackServiceImpl implements TrackService {
         }
         
         return trackMatches;
+    }
+    
+    @Override
+    public List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
+        return getTracksByFingerprints(Global.MAX_FINGERPRINT_MATCHES, fingerprints);
     }
 }
