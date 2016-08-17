@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,11 +21,6 @@ import java.util.List;
 @ComponentScan("musicrecognition.controllers")
 @Import({WebSecurityConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter{
-    @Bean
-    StandardServletMultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
-    }
-        
     @Bean
     InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();

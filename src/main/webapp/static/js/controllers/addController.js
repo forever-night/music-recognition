@@ -3,6 +3,7 @@ app.controller('AddCtrl', function ($scope, $window, $http, StatusService, Eleme
     var loaderElement = document.getElementById('loader');
     var formElement = document.getElementById('form');
     var headerTextElement = document.getElementById('txtHead');
+    var csrfToken = document.getElementsByName('_csrf')[0].content;
 
     $scope.track = new Track();
 
@@ -44,13 +45,11 @@ app.controller('AddCtrl', function ($scope, $window, $http, StatusService, Eleme
 
         var formData = $scope.createFormData();
 
-        MultipartService.postMixedMultipart(url.uploadAdd, formData).then(
+        MultipartService.postMixedMultipart(url.uploadAdd, formData, csrfToken).then(
             function success(response) {
                 $window.location.href = url.addStatus + '=' + response.status;
             },
             function error(response) {
-                console.log(response);
-
                 $window.location.href = url.addStatus + '=' + response.status;
             }
         );

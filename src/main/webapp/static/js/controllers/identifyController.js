@@ -3,7 +3,7 @@ app.controller('IdentifyCtrl', function($scope, $window, StatusService, ElementS
     var loaderElement = document.getElementById('loader');
     var headerTextElement = document.getElementById('txtHead');
     var formElement = document.getElementById('form');
-    // var csrfToken = document.getElementsByName('_csrf')[0].content;
+    var csrfToken = document.getElementsByName('_csrf')[0].content;
 
 
     $scope.uploadFile = function() {
@@ -13,7 +13,7 @@ app.controller('IdentifyCtrl', function($scope, $window, StatusService, ElementS
 
         var file = $scope.file;
 
-        MultipartService.postMultipart(url.uploadIdentify, file).then(
+        MultipartService.postMultipart(url.uploadIdentify, file, csrfToken).then(
             function success(response) {
                 sessionStorage.setItem('trackMatches', JSON.stringify(response.data));
                 $window.location.href = url.result;
@@ -27,6 +27,9 @@ app.controller('IdentifyCtrl', function($scope, $window, StatusService, ElementS
                 switch (response.status) {
                     case 204:
                         StatusService.setStatus(statusElement, false, message.noContent);
+                        break;
+                    case 403:
+                        StatusService.setStatus(statusElement, false, message.noAccess);
                         break;
                     case 415:
                         StatusService.setStatus(statusElement, false, message.unsupportedType);

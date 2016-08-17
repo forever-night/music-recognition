@@ -12,7 +12,8 @@ message = {
     internal: 'Internal server error',
     io: 'Error in reading file',
     noContent: 'File not selected',
-    fieldEmpty: 'One of the fields is empty'
+    fieldEmpty: 'One of the fields is empty',
+    noAccess: 'Access denied'
 };
 
 url = {
@@ -84,12 +85,12 @@ app.service('LoaderService', function() {
 
 
 app.service('MultipartService', function($http) {
-    this.postMultipart = function(url, file) {
+    this.postMultipart = function(url, file, csrfToken) {
         var config = {
             transformRequest: angular.identity,
             headers: {
-                'Content-Type': undefined
-                // 'X-CSRF-TOKEN' : csrfToken
+                'Content-Type': undefined,
+                'X-CSRF-TOKEN' : csrfToken
             }
         };
 
@@ -99,11 +100,11 @@ app.service('MultipartService', function($http) {
         return $http.post(url, fd, config);
     };
 
-    this.postMixedMultipart = function(url, formData) {
+    this.postMixedMultipart = function(url, formData, csrfToken) {
         var config = {
             headers: {
-                'Content-Type': undefined
-                // 'X-CSRF-TOKEN' : csrfToken
+                'Content-Type': undefined,
+                'X-CSRF-TOKEN' : csrfToken
             }
         };
 
@@ -120,9 +121,6 @@ function loadNavElements() {
 
 
 function setActive(element) {
-    console.log(navElements);
-    console.log(element);
-
     for (var propt in navElements) {
         if (navElements.hasOwnProperty(propt))
             if (element == navElements[propt])

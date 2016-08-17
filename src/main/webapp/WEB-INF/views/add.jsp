@@ -6,10 +6,11 @@
     <jsp:attribute name="head">
         <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/loader.css"/>"/>
         <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/positionFix.css"/>"/>
-
         <script src="<c:url value="/static/js/classes/track.js"/>"></script>
         <script src="<c:url value="/static/js/controllers/addController.js"/>"></script>
         <title>Add a track</title>
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </jsp:attribute>
     <jsp:body>
         <div ng-controller="AddCtrl" style="padding-top:3em;">

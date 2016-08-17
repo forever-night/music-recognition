@@ -5,11 +5,10 @@
 <t:template>
     <jsp:attribute name="head">
         <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/loader.css"/>"/>
-
         <script src="<c:url value="/static/js/controllers/identifyController.js"/>"></script>
         <title>Identify audio</title>
-        <%--<meta name="_csrf" content="${_csrf.token}"/>--%>
-        <%--<meta name="_csrf_header" content="${_csrf.headerName}"/>--%>
+        <meta name="_csrf" content="${_csrf.token}"/>
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </jsp:attribute>
     <jsp:body>
         <div ng-controller="IdentifyCtrl">
