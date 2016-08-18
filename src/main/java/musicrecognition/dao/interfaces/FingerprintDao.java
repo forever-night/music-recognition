@@ -1,4 +1,4 @@
-package musicrecognition.dao;
+package musicrecognition.dao.interfaces;
 
 public interface FingerprintDao {
     /**

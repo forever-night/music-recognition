@@ -1,4 +1,4 @@
-package musicrecognition.services;
+package musicrecognition.services.interfaces;
 
 import musicrecognition.util.audio.audiotypes.AudioType;
 

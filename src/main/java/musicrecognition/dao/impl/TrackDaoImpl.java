@@ -1,5 +1,6 @@
-package musicrecognition.dao;
+package musicrecognition.dao.impl;
 
+import musicrecognition.dao.interfaces.TrackDao;
 import musicrecognition.entities.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

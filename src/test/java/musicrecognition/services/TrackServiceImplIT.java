@@ -3,6 +3,7 @@ package musicrecognition.services;
 import musicrecognition.config.TestConfig;
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
+import musicrecognition.services.interfaces.TrackService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

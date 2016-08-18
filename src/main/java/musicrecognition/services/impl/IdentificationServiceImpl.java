@@ -1,6 +1,9 @@
-package musicrecognition.services;
+package musicrecognition.services.impl;
 
 import musicrecognition.dto.TrackMatch;
+import musicrecognition.services.interfaces.FingerprintService;
+import musicrecognition.services.interfaces.IdentificationService;
+import musicrecognition.services.interfaces.TrackService;
 import musicrecognition.util.audio.audiotypes.AudioType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

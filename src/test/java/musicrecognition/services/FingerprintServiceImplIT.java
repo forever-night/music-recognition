@@ -2,6 +2,8 @@ package musicrecognition.services;
 
 import musicrecognition.config.TestConfig;
 import musicrecognition.entities.Track;
+import musicrecognition.services.interfaces.FingerprintService;
+import musicrecognition.services.interfaces.TrackService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-
-import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -1,5 +1,6 @@
-package musicrecognition.dao;
+package musicrecognition.dao.impl;
 
+import musicrecognition.dao.interfaces.FingerprintDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;

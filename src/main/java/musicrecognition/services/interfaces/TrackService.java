@@ -1,4 +1,4 @@
-package musicrecognition.services;
+package musicrecognition.services.interfaces;
 
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;

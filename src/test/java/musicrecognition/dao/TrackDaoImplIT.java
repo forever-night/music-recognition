@@ -1,16 +1,15 @@
 package musicrecognition.dao;
 
+import musicrecognition.dao.interfaces.FingerprintDao;
+import musicrecognition.dao.interfaces.TrackDao;
 import musicrecognition.util.TestUtil;
 import musicrecognition.config.TestConfig;
 import musicrecognition.entities.Track;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;

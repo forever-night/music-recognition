@@ -1,6 +1,7 @@
-package musicrecognition.services;
+package musicrecognition.services.impl;
 
-import musicrecognition.dao.FingerprintDao;
+import musicrecognition.dao.interfaces.FingerprintDao;
+import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.util.audio.audiotypes.AudioType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

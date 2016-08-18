@@ -2,9 +2,9 @@ package musicrecognition.controllers.json;
 
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
-import musicrecognition.services.FingerprintService;
-import musicrecognition.services.IdentificationService;
-import musicrecognition.services.TrackService;
+import musicrecognition.services.interfaces.FingerprintService;
+import musicrecognition.services.interfaces.IdentificationService;
+import musicrecognition.services.interfaces.TrackService;
 import musicrecognition.util.audio.audiotypes.AudioType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

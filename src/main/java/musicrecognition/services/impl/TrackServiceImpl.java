@@ -1,8 +1,10 @@
-package musicrecognition.services;
+package musicrecognition.services.impl;
 
-import musicrecognition.dao.TrackDao;
+import musicrecognition.dao.interfaces.TrackDao;
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
+import musicrecognition.services.interfaces.FingerprintService;
+import musicrecognition.services.interfaces.TrackService;
 import musicrecognition.util.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
