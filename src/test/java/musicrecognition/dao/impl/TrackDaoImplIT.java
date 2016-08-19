@@ -1,4 +1,4 @@
-package musicrecognition.dao;
+package musicrecognition.dao.impl;
 
 import musicrecognition.dao.interfaces.FingerprintDao;
 import musicrecognition.dao.interfaces.TrackDao;

@@ -1,4 +1,4 @@
-package musicrecognition.services;
+package musicrecognition.services.impl;
 
 import musicrecognition.config.TestConfig;
 import musicrecognition.dto.TrackMatch;

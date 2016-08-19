@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,8 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 
-@Controller
-@RequestMapping(value = "/upload")
+@RestController
+@RequestMapping(value = "/rest/upload")
 public class JsonFileUploadController {
     private static final Logger LOGGER = LogManager.getLogger(JsonFileUploadController.class);
     
@@ -36,7 +35,6 @@ public class JsonFileUploadController {
     
     
     @RequestMapping(method = RequestMethod.POST, params = "identify", consumes = {"multipart/form-data"})
-    @ResponseBody
     public ResponseEntity<List<TrackMatch>> identify(@RequestParam MultipartFile file) {
         if (file != null) {
             AudioType.Type type = getAudioType(file);
@@ -67,7 +65,6 @@ public class JsonFileUploadController {
     }
     
     @RequestMapping(method = RequestMethod.POST, params = "add", consumes = {"multipart/form-data"})
-    @ResponseBody
     public ResponseEntity add(@RequestPart(value = "track") Track track,
                               @RequestPart(value = "file") MultipartFile file) {
         if (track == null || file == null ||
