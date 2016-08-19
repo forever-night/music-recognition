@@ -6,8 +6,6 @@ import musicrecognition.services.interfaces.UserService;
 import musicrecognition.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -15,13 +13,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @Transactional
-public class RegisterRestControllerIT {
+public class RegisterRestControllerTest {
     UserService mockUserService;
     RegisterRestController controller;
     StringHttpMessageConverter stringHttpMessageConverter;
@@ -67,7 +66,6 @@ public class RegisterRestControllerIT {
     @Test
     public void registerUserPasswordEmpty() throws Exception {
         userDto.setPassword("");
-        musicrecognition.entities.User userEntity = TestUtil.dtoToEntity(userDto);
         
         String json = toJson(userDto);
     

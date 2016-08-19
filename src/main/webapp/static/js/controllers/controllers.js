@@ -4,7 +4,8 @@ app = angular.module('app', []);
 navElements = {
     identify : null,
     howitworks : null,
-    add : null
+    add : null,
+    login: null
 };
 
 message = {
@@ -13,14 +14,17 @@ message = {
     io: 'Error in reading file',
     noContent: 'File not selected',
     fieldEmpty: 'One of the fields is empty',
-    noAccess: 'Access denied'
+    noAccess: 'Access denied',
+    noPasswordMatch: 'Passwords don\'t match'
 };
 
 url = {
-    uploadIdentify: '/musrec/upload?identify',
-    uploadAdd: '/musrec/upload?add',
+    uploadIdentify: '/musrec/rest/upload?identify',
+    uploadAdd: '/musrec/rest/upload?add',
     addStatus: '/musrec/add?status',
-    result: '/musrec/result'
+    result: '/musrec/result',
+    register: '/musrec/rest/register',
+    login: '/musrec/login'
 };
 
 
@@ -117,6 +121,7 @@ function loadNavElements() {
     navElements.identify = document.getElementById('navIdentify');
     navElements.howitworks = document.getElementById('navHow');
     navElements.add = document.getElementById('navAdd');
+    navElements.login = document.getElementById('navLogin');
 }
 
 

@@ -37,6 +37,7 @@
                             </li>
                             <li id="navHow"><a href="<c:url value="/howitworks"/>">How it works</a></li>
                             <li id="navAdd"><a href="<c:url value="/add"/>">Add a song</a></li>
+                            <li id="navLogin"><a href="<c:url value="/login"/>">Log in</a></li>
                         </ul>
                     </nav>
                 </div>
