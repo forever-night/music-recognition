@@ -1,5 +1,6 @@
 package musicrecognition.config;
 
+import musicrecognition.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,19 +39,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/identify*").permitAll()
-                .antMatchers(HttpMethod.POST, "/upload*").permitAll()
+                .antMatchers("/", "/static/**", "/403").permitAll()
+                .antMatchers("/login*", "/register").anonymous()
+                .antMatchers(HttpMethod.POST, "/login*", "/register", "/rest/register").anonymous()
+                .antMatchers("/add").hasAuthority(User.Role.ADMIN.toString())
+                .antMatchers(HttpMethod.POST, "/upload?add").hasAuthority(User.Role.ADMIN.toString())
+                .anyRequest().authenticated()
             .and()
                 .formLogin()
-                    .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/identify", true)
-                    .failureUrl("/login?error")
+                .loginPage("/login")
+                .defaultSuccessUrl("/identify", true)
+                .failureUrl("/login?error")
             .and()
                 .logout()
-                    .logoutUrl("/logout").permitAll()
-                    .logoutSuccessUrl("/login?logout")
+                .logoutUrl("/logout").permitAll()
+                .logoutSuccessUrl("/login?logout")
             .and()
-                .csrf();
+                .csrf()
+            .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403");
     }
 }
