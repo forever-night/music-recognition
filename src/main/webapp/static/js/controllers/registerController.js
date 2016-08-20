@@ -30,7 +30,7 @@ app.service('AuthService', function($http, $window, ValidatorService, StatusServ
             }
         };
 
-        return $http.post(url.register, JSON.stringify(user), config);
+        return $http.post(restUrl.register, JSON.stringify(user), config);
     };
 
     this.register = function(user, csrfToken, statusElement) {
@@ -43,13 +43,9 @@ app.service('AuthService', function($http, $window, ValidatorService, StatusServ
         if (ValidatorService.validatePassword(user.password, user.confirm)) {
             this.postUser(user, csrfToken).then(
                 function success() {
-                    console.log('user successfully registered');
-
-                //    TODO redirect to success page
-                    $window.location.href = url.login;
+                    $window.location.href = url.login + "?register";
                 },
                 function error(response) {
-                    console.log(response);
                     StatusService.setStatus(statusElement, false, 'error ' + response.status);
                 }
             );

@@ -19,11 +19,18 @@
 
 
 .cover-override {
-    text-align: left;
     text-shadow: none;
 }
 
 
 .cover-text-override {
     color: #333;
+}
+
+.dropdown-form:hover {
+    background-color: aliceblue;
+}
+
+.dropdown-form > a {
+    color: #777;
 }

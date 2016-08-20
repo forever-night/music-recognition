@@ -7,13 +7,15 @@ app.controller('IdentifyCtrl', function($scope, $window, StatusService, ElementS
 
 
     $scope.uploadFile = function() {
+        ElementService.hide(statusElement);
+
         if ($scope.file == null)
             StatusService.setStatus(statusElement, false, message.fieldEmpty);
 
 
         var file = $scope.file;
 
-        MultipartService.postMultipart(url.uploadIdentify, file, csrfToken).then(
+        MultipartService.postMultipart(restUrl.uploadIdentify, file, csrfToken).then(
             function success(response) {
                 sessionStorage.setItem('trackMatches', JSON.stringify(response.data));
                 $window.location.href = url.result;

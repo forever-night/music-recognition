@@ -8,7 +8,11 @@
     </jsp:attribute>
     <jsp:body>
         <div ng-controller="LoginCtrl">
-            <form class="center-block form-horizontal" style="padding-top:2em;padding-bottom:2em;">
+            <form class="center-block form-horizontal" style="margin-top:4em;padding-bottom:2em;" method="post"
+                  action="<c:url value="/login"/>">
+                <c:if test="${param.error != null}">{{loginError()}}</c:if>
+                <c:if test="${param.logout != null}">{{logoutSuccess()}}</c:if>
+                <c:if test="${param.register != null}">{{registerSuccess()}}</c:if>
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
@@ -24,7 +28,7 @@
                         <input class="form-control" id="password" name="password" type="password" required>
                     </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="margin-top:2em;">
                     <div id="status" class="col-sm-8 col-sm-offset-2" role="alert" style="display: none;"></div>
                 </div>
                 <div class="form-group" style="margin-top:3em;">

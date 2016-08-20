@@ -45,7 +45,7 @@ app.controller('AddCtrl', function ($scope, $window, $http, StatusService, Eleme
 
         var formData = $scope.createFormData();
 
-        MultipartService.postMixedMultipart(url.uploadAdd, formData, csrfToken).then(
+        MultipartService.postMixedMultipart(restUrl.uploadAdd, formData, csrfToken).then(
             function success(response) {
                 $window.location.href = url.addStatus + '=' + response.status;
             },

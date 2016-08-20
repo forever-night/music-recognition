@@ -5,7 +5,8 @@ navElements = {
     identify : null,
     howitworks : null,
     add : null,
-    login: null
+    login: null,
+    user: null
 };
 
 message = {
@@ -15,16 +16,27 @@ message = {
     noContent: 'File not selected',
     fieldEmpty: 'One of the fields is empty',
     noAccess: 'Access denied',
-    noPasswordMatch: 'Passwords don\'t match'
+    noPasswordMatch: 'Passwords don\'t match',
+    loginError: 'Incorrect login or password',
+    logoutSuccess: 'Logout successful!',
+    registerSuccess: 'Registration successful!'
 };
 
 url = {
-    uploadIdentify: '/musrec/rest/upload?identify',
-    uploadAdd: '/musrec/rest/upload?add',
-    addStatus: '/musrec/add?status',
-    result: '/musrec/result',
-    register: '/musrec/rest/register',
-    login: '/musrec/login'
+    login: context + '/login',
+    logout: context + '/logout',
+    register: context + '/register',
+    identify: context + '/identify',
+    howitworks: context + '/howitworks',
+    add: context + '/add',
+    addStatus: context + '/add?status',
+    result: context + '/result'
+};
+
+restUrl = {
+    uploadIdentify: context + '/rest/upload?identify',
+    uploadAdd: context + '/rest/upload?add',
+    register: context + '/rest/register'
 };
 
 
@@ -54,11 +66,11 @@ app.service('StatusService', function(ElementService) {
         var cssClass;
 
         if (isSuccessful)
-            cssClass = 'alert alert-success col-sm-8 col-sm-offset-2';
+            cssClass = 'alert alert-success col-sm-8 col-sm-offset-2 cover-override';
         else
-            cssClass = 'alert alert-danger col-sm-8 col-sm-offset-2';
+            cssClass = 'alert alert-danger col-sm-8 col-sm-offset-2 cover-override';
 
-        ElementService.display(statusElement);
+        ElementService.display(statusElement, 'block');
         statusElement.setAttribute('class', cssClass);
         statusElement.innerText = text;
     };
@@ -122,6 +134,7 @@ function loadNavElements() {
     navElements.howitworks = document.getElementById('navHow');
     navElements.add = document.getElementById('navAdd');
     navElements.login = document.getElementById('navLogin');
+    navElements.user = document.getElementById('navUser');
 }
 
 

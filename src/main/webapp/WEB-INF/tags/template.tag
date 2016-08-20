@@ -11,16 +11,15 @@
     <meta name="author" content="">
     <%--<link rel="icon" href="../../favicon.ico">--%>
 
-    <link type="text/css" href="<c:url value="/static/css/bootstrap.min.css"/>" rel="stylesheet">
-    <link type="text/css" href="<c:url value="/static/css/cover.css"/>" rel="stylesheet">
-    <link type="text/css" href="<c:url value="/static/css/cover-custom.css"/>" rel="stylesheet">
+    <link type="text/css" href="<c:url value="/static/css/bootstrap.min.css"/>" rel="stylesheet"/>
+    <link type="text/css" href="<c:url value="/static/css/cover.css"/>" rel="stylesheet"/>
+    <link type="text/css" href="<c:url value="/static/css/cover-custom.css"/>" rel="stylesheet"/>
 
-    <script src="<c:url value="/static/js/lib/jquery-2.2.3.js"/>"></script>
-    <script src="<c:url value="/static/js/lib/bootstrap.min.js"/>"></script>
-    <script src="<c:url value="/static/js/lib/angular.min.js"/>"></script>
-
-    <script src="<c:url value="/static/js/controllers/controllers.js"/>"></script>
-
+    <script>context = "${pageContext.request.contextPath}"; </script>
+    <script rel="script" src="<c:url value="/static/js/lib/jquery-2.2.3.js"/>"></script>
+    <script rel="script" src="<c:url value="/static/js/lib/bootstrap.min.js"/>"></script>
+    <script rel="script" src="<c:url value="/static/js/lib/angular.min.js"/>"></script>
+    <script rel="script" src="<c:url value="/static/js/controllers/controllers.js"/>"></script>
     <jsp:invoke fragment="head"/>
 </head>
 <body ng-cloak ng-controller="MainCtrl">
@@ -32,12 +31,36 @@
                     <h3 class="masthead-brand"><a href="<c:url value="/"/>">Music Recognition</a></h3>
                     <nav>
                         <ul class="nav masthead-nav">
-                            <li id="navIdentify">
-                                <a href="<c:url value="/identify"/>">Identify</a>
-                            </li>
+                            <li id="navIdentify"><a href="<c:url value="/identify"/>">Identify</a></li>
                             <li id="navHow"><a href="<c:url value="/howitworks"/>">How it works</a></li>
-                            <li id="navAdd"><a href="<c:url value="/add"/>">Add a song</a></li>
-                            <li id="navLogin"><a href="<c:url value="/login"/>">Log in</a></li>
+                            <c:choose>
+                                <c:when test="${username == null}">
+                                    <li id="navLogin"><a href="<c:url value="/login"/>">Log in</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li id="navUser">
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                id="dropdownMenu"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="glyphicon glyphicon-user"></span> user
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">
+                                            <li>
+                                            <form method="post" action="<c:url value="/logout"/>" class="dropdown-form">
+                                                <input type="hidden"
+                                                       name="${_csrf.parameterName}"
+                                                       value="${_csrf.token}"/>
+                                                <a href="javascript:;" onclick="parentNode.submit();"
+                                                   class="btn">Log out</a>
+                                            </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </nav>
                 </div>

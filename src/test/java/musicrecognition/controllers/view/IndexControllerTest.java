@@ -28,7 +28,7 @@ public class IndexControllerTest {
     
     @Test
     public void returnIndexView() throws Exception {
-        String expectedView = "identify";
+        String expectedView = "login";
         
         mockMvc.perform(get("/"))
                 .andExpect(forwardedUrl(expectedView));
