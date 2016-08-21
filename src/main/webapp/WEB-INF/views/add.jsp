@@ -13,10 +13,9 @@
         <meta name="_csrf_header" content="${_csrf.headerName}"/>
     </jsp:attribute>
     <jsp:body>
-        <div ng-controller="AddCtrl" style="padding-top:3em;">
+        <div ng-controller="AddCtrl">
             <div id="txtHead">
-                <h3>Improve identification process.</h3>
-                <h4 class="text-muted">Add a track to the database.</h4>
+                <h3>Add a track</h3>
             </div>
             <form id="form" class="center-block form-horizontal" style="padding-top:2em;" method="post"
                   enctype="multipart/form-data">

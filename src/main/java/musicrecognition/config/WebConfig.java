@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 
 @Configuration
@@ -57,12 +59,18 @@ public class WebConfig extends WebMvcConfigurerAdapter{
                     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                     Object user = auth.getPrincipal();
                     String username = null;
+                    String role = "";
                     
-                    if (user instanceof User)
+                    if (user instanceof User) {
                         username = ((User) user).getUsername();
+                        
+                        for (GrantedAuthority authority : ((User) user).getAuthorities())
+                            role = authority.getAuthority();
+                    }
                     
                     modelAndView.getModelMap()
-                            .addAttribute("username", username);
+                            .addAttribute("username", username)
+                            .addAttribute("role", role);
                 }
             }
         };

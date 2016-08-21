@@ -47,6 +47,10 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">
+                                            <c:if test="${role == 'ADMIN'}">
+                                                <li><a href="<c:url value="/add"/>">Add a track</a></li>
+                                                <li role="separator" class="divider"></li>
+                                            </c:if>
                                             <li>
                                             <form method="post" action="<c:url value="/logout"/>" class="dropdown-form">
                                                 <input type="hidden"

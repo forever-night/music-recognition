@@ -23,14 +23,22 @@
 }
 
 
+.list-group {
+    text-align: left;
+}
+
+
 .cover-text-override {
     color: #333;
 }
 
+
 .dropdown-form:hover {
-    background-color: aliceblue;
+    background-color: #f5f5f5;
 }
 
+
 .dropdown-form > a {
-    color: #777;
+    color: #333;
+    padding: 3px 20px;
 }
