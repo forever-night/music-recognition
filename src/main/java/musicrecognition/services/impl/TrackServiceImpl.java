@@ -9,6 +9,7 @@ import musicrecognition.util.Global;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,29 +28,22 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional
-    public Integer insert(Track track){
-        if (track != null && track.getTitle() != null && track.getArtist() != null &&
-            track.getFingerprints() != null && !track.getFingerprints().isEmpty()) {
-            
-            boolean exists = trackDao.checkIfExists(track);
+    public Integer insert(Track track) throws DuplicateKeyException {
+        if (track == null || track.getTitle() == null || track.getArtist() == null ||
+            track.getFingerprints() == null || track.getFingerprints().isEmpty())
+            return null;
+        
+        Integer id = trackDao.insert(track);
+        
+        track.setId(id);
 
-            if (exists) {
-                LOGGER.error("track already exists: " + track.getArtist() + " - " + track.getTitle());
-            } else {
-                int id = trackDao.insert(track);
-                track.setId(id);
+        int insertCount = fingerprintService.insert(track.getId(), track.getFingerprints());
+        
+        if (insertCount > 0)
+            LOGGER.info(insertCount + " fingerprints inserted");
 
-                int insertCount = fingerprintService.insert(track.getId(), track.getFingerprints());
-                
-                if (insertCount > 0)
-                    LOGGER.info(insertCount + " fingerprints inserted");
-
-                LOGGER.info("track " + id + " saved");
-                return track.getId();
-            }
-        }
-
-        return null;
+        LOGGER.info("track " + id + " saved");
+        return track.getId();
     }
 
     @Override
@@ -58,6 +52,11 @@ public class TrackServiceImpl implements TrackService {
             return trackDao.getById(id);
         else
             return null;
+    }
+    
+    @Override
+    public boolean checkIfExists(Track track) {
+        return trackDao.checkIfExists(track);
     }
     
     @Override

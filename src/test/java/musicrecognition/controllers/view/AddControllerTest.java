@@ -42,7 +42,7 @@ public class AddControllerTest {
         mockMvc.perform(get("/add").param("status", "201"))
                 .andExpect(view().name(addStatusView))
                 .andExpect(model().attributeExists("message"))
-                .andExpect(model().attribute("message", Global.Message.SUCCESS.getMessage()));
+                .andExpect(model().attribute("message", Global.UIMessage.SUCCESS.getMessage()));
     }
     
     @Test
@@ -50,6 +50,6 @@ public class AddControllerTest {
         mockMvc.perform(get("/add").param("status", "202"))
                 .andExpect(view().name(addStatusView))
                 .andExpect(model().attributeExists("message"))
-                .andExpect(model().attribute("message", Global.Message.ERROR.getMessage() + " 202"));
+                .andExpect(model().attribute("message", Global.UIMessage.ERROR.getMessage() + " 202"));
     }
 }

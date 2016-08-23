@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 import static musicrecognition.util.audio.AudioAnalysisUtil.fingerprintAll;
@@ -23,7 +24,7 @@ public class FingerprintServiceImpl implements FingerprintService {
     FingerprintDao fingerprintDao;
             
     @Override
-    public Set<Integer> createFingerprints(File file, AudioType.Type type) {
+    public Set<Integer> createFingerprints(File file, AudioType.Type type) throws IOException {
         int[][] peaks;
         
         if (type == null) {

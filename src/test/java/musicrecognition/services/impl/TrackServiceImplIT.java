@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -54,6 +55,14 @@ public class TrackServiceImplIT {
         Assert.assertTrue(actualId > 0);
     }
     
+    @Test(expected = DuplicateKeyException.class)
+    public void insertTrackDuplicate() {
+        track.setFingerprints(generateFingerprints());
+        
+        trackService.insert(track);
+        trackService.insert(track);
+    }
+    
     @Test
     public void getTracksByFingerprintsNull() {
         List<TrackMatch> actual = trackService.getTracksByFingerprints(null);
@@ -69,7 +78,7 @@ public class TrackServiceImplIT {
     }
     
     @Test
-    public void getTracksByFingerprintsNotNull() {
+    public void getTracksByFingerprintsNotNull()  {
         Set<Integer> fingerprints = generateFingerprints();
         
         track.setFingerprints(fingerprints);

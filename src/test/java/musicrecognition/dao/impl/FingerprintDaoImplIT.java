@@ -44,7 +44,7 @@ public class FingerprintDaoImplIT {
         for (int i = 0; i < 5; i++)
             fingerprints.add(i);
         
-        int affected = fingerprintDao.batchInsertFingerprintsById(1, fingerprints.toArray(new Integer[]{}));
+        int affected = fingerprintDao.batchInsertFingerprintsById(0, fingerprints.toArray(new Integer[]{}));
         
         Assert.assertEquals(0, affected);
     }

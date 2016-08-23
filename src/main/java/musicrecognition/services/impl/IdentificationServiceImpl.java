@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class IdentificationServiceImpl implements IdentificationService {
     TrackService trackService;
     
     @Override
-    public List<TrackMatch> identify(File file, AudioType.Type type) {
+    public List<TrackMatch> identify(File file, AudioType.Type type) throws IOException {
         Set<Integer> fingerprints = fingerprintService.createFingerprints(file, type);
     
         return getTracksByFingerprints(fingerprints);

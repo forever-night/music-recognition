@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 import static musicrecognition.util.audio.AudioAnalysisUtil.getSpectrumPeaks;
 
@@ -36,7 +37,7 @@ public class AudioAnalysisUtilTest {
     }
 
     @Test
-    public void getSpectrumPeaksMp3MonoOneFrequency() {
+    public void getSpectrumPeaksMp3MonoOneFrequency() throws IOException {
         int[][] actualPeaks = getSpectrumPeaks(mp3440, mp3Type);
 
         for (int[] peak : actualPeaks)
@@ -47,7 +48,7 @@ public class AudioAnalysisUtilTest {
      * Checks whether spectrum peaks for .wav and .mp3 files with the same recording are equal
      * */
     @Test
-    public void getSpectrumPeaksWavMp3SameAudio() {
+    public void getSpectrumPeaksWavMp3SameAudio() throws IOException {
         int[][] actualWav = getSpectrumPeaks(wav440, wavType);
         int[][] actualMp3 = getSpectrumPeaks(mp3440, mp3Type);
 
@@ -59,7 +60,7 @@ public class AudioAnalysisUtilTest {
     }
 
     @Test
-    public void getSpectrumPeaks440Hz() {
+    public void getSpectrumPeaks440Hz() throws IOException {
         int[][] actualPeaks = getSpectrumPeaks(wav440, wavType);
 
         for (int[] peak : actualPeaks)
@@ -67,7 +68,7 @@ public class AudioAnalysisUtilTest {
     }
 
     @Test
-    public void getSpectrumPeaks440HzNoise() {
+    public void getSpectrumPeaks440HzNoise() throws IOException {
         File wav440Noise = new File(file440NoiseWav);
 
         int[][] actualPeaksNoNoise = getSpectrumPeaks(wav440, wavType);

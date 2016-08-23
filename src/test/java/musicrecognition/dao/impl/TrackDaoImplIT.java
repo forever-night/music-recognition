@@ -1,15 +1,16 @@
 package musicrecognition.dao.impl;
 
+import musicrecognition.config.TestConfig;
 import musicrecognition.dao.interfaces.FingerprintDao;
 import musicrecognition.dao.interfaces.TrackDao;
-import musicrecognition.util.TestUtil;
-import musicrecognition.config.TestConfig;
 import musicrecognition.entities.Track;
+import musicrecognition.util.TestUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
@@ -51,6 +52,12 @@ public class TrackDaoImplIT {
 
         Integer id = trackDao.insert(track);
         Assert.assertNull(id);
+    }
+    
+    @Test(expected = DuplicateKeyException.class)
+    public void insertTrackDuplicate() {
+        trackDao.insert(track);
+        trackDao.insert(track);
     }
 
     @Test

@@ -1,11 +1,12 @@
 package musicrecognition.controllers.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import musicrecognition.dto.User;
+import musicrecognition.controllers.WebExceptionHandler;
 import musicrecognition.services.interfaces.UserService;
 import musicrecognition.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,7 +28,7 @@ public class RegisterRestControllerTest {
     MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
     MockMvc mockMvc;
     
-    private User userDto;
+    private musicrecognition.dto.User userDto;
     
     @Before
     public void setUp() {
@@ -39,6 +40,7 @@ public class RegisterRestControllerTest {
         
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setMessageConverters(stringHttpMessageConverter, jackson2HttpMessageConverter)
+                .setControllerAdvice(new WebExceptionHandler())
                 .build();
     
         userDto = TestUtil.createUserDto();
@@ -73,6 +75,24 @@ public class RegisterRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.getBytes()))
                 .andExpect(status().isNoContent());
+    }
+    
+    @Test
+    public void registerUserDuplicate() throws Exception {
+        musicrecognition.entities.User userEntity = TestUtil.dtoToEntity(userDto);
+    
+        when(mockUserService.dtoToEntity(userDto))
+                .thenReturn(userEntity);
+    
+        when(mockUserService.insert(userEntity))
+                .thenThrow(DuplicateKeyException.class);
+        
+        String json = toJson(userDto);
+        
+        mockMvc.perform(post("/rest/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json.getBytes()))
+                .andExpect(status().isUnprocessableEntity());
     }
     
     private String toJson(Object object) throws JsonProcessingException {

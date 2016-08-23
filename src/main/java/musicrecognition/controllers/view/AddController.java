@@ -18,27 +18,30 @@ public class AddController {
     
     @RequestMapping(method = RequestMethod.GET, params = "status")
     public String getStatus(@RequestParam Integer status, Model model) {
-        Global.Message message;
+        Global.UIMessage message;
         
         switch (status) {
             case 201:
-                message = Global.Message.SUCCESS;
+                message = Global.UIMessage.SUCCESS;
                 break;
             case 204:
-                message = Global.Message.FIELD_EMPTY;
+                message = Global.UIMessage.FIELD_EMPTY;
                 break;
             case 415:
-                message = Global.Message.UNSUPPORTED_TYPE;
+                message = Global.UIMessage.UNSUPPORTED_TYPE;
+                break;
+            case 422:
+                message = Global.UIMessage.DUPLICATE_TRACK;
                 break;
             case 500:
-                message = Global.Message.INTERNAL_ERROR;
+                message = Global.UIMessage.INTERNAL_ERROR;
                 break;
             default:
-                message = Global.Message.ERROR;
+                message = Global.UIMessage.ERROR;
         }
         
         
-        if (message == Global.Message.ERROR)
+        if (message == Global.UIMessage.ERROR)
             model.addAttribute("message", message.getMessage() + " " + status);
         else
             model.addAttribute("message", message.getMessage());

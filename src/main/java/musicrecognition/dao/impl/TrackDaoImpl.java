@@ -5,6 +5,7 @@ import musicrecognition.entities.Track;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -50,7 +51,7 @@ public class TrackDaoImpl implements TrackDao {
 
 
     @Override
-    public Integer insert(Track track) {
+    public Integer insert(Track track) throws DuplicateKeyException {
         if (validate(track)) {
             String query = "INSERT INTO track(title, album_title, artist, year, genre)" +
                     "VALUES (:title, :albumTitle, :artist, :year, :genre)";

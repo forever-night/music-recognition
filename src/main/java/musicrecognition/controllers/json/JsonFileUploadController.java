@@ -2,13 +2,16 @@ package musicrecognition.controllers.json;
 
 import musicrecognition.dto.TrackMatch;
 import musicrecognition.entities.Track;
+import musicrecognition.exceptions.FingerprintingException;
+import musicrecognition.exceptions.NoContentException;
+import musicrecognition.exceptions.UnsupportedAudioTypeException;
 import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.services.interfaces.IdentificationService;
 import musicrecognition.services.interfaces.TrackService;
 import musicrecognition.util.audio.audiotypes.AudioType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +25,6 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/rest/upload")
 public class JsonFileUploadController {
-    private static final Logger LOGGER = LogManager.getLogger(JsonFileUploadController.class);
-    
     @Autowired
     IdentificationService identificationService;
     
@@ -34,78 +35,64 @@ public class JsonFileUploadController {
     FingerprintService fingerprintService;
     
     
-    @RequestMapping(method = RequestMethod.POST, params = "identify", consumes = {"multipart/form-data"})
-    public ResponseEntity<List<TrackMatch>> identify(@RequestParam MultipartFile file) {
-        if (file != null) {
-            AudioType.Type type = getAudioType(file);
-    
-            if (type == null) {
-                LOGGER.error("unacceptable file format: " + file.getContentType());
-                return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-            }
-    
-    
-            File tempFile;
-            
-            try {
-                tempFile = multipartToFile(file, type);
-            } catch (IOException e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            
-            
-            List<TrackMatch> matches = identificationService.identify(tempFile, type);
-            
-            if (!tempFile.delete())
-                tempFile.deleteOnExit();
-            
-            return new ResponseEntity<>(matches, HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @RequestMapping(method = RequestMethod.POST,
+            params = "identify", consumes = {"multipart/form-data"})
+    public ResponseEntity<List<TrackMatch>> identify(@RequestParam MultipartFile file) throws IOException {
+        if (file == null)
+            throw new NoContentException();
+        
+        
+        AudioType.Type type = getAudioType(file);
+
+        if (type == null)
+            throw new UnsupportedAudioTypeException();
+
+
+        File tempFile = multipartToFile(file, type);
+        List<TrackMatch> matches = identificationService.identify(tempFile, type);
+        
+        if (!tempFile.delete())
+            tempFile.deleteOnExit();
+        
+        return new ResponseEntity<>(matches, HttpStatus.OK);
     }
     
-    @RequestMapping(method = RequestMethod.POST, params = "add", consumes = {"multipart/form-data"})
+    @RequestMapping(method = RequestMethod.POST,
+            params = "add", consumes = {"multipart/form-data"})
     public ResponseEntity add(@RequestPart(value = "track") Track track,
-                              @RequestPart(value = "file") MultipartFile file) {
+                              @RequestPart(value = "file") MultipartFile file) throws IOException {
         if (track == null || file == null ||
                 track.getTitle().isEmpty() || track.getArtist().isEmpty() ||
                 track.getYear() == 0 || track.getAlbumTitle().isEmpty())
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            throw new NoContentException();
             
         
         AudioType.Type type = getAudioType(file);
     
-        if (type == null) {
-            LOGGER.error("unacceptable file format: " + file.getContentType());
-            return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-        }
+        if (type == null)
+            throw new UnsupportedAudioTypeException();
+        
+        if (trackService.checkIfExists(track))
+            throw new DuplicateKeyException("Track already exists");
     
     
-        File tempFile;
-        
-        try {
-            tempFile = multipartToFile(file, type);
-        } catch (IOException e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        
-        
+        File tempFile = multipartToFile(file, type);
         Set<Integer> fingerprints = fingerprintService.createFingerprints(tempFile, type);
         
         if (!tempFile.delete())
             tempFile.deleteOnExit();
         
-        if (fingerprints != null && !fingerprints.isEmpty()) {
-            track.setFingerprints(fingerprints);
-            Integer id = trackService.insert(track);
-
-            if (id != null)
-                return new ResponseEntity(HttpStatus.CREATED);
-            else
-                return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-    
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        
+        if (fingerprints == null || fingerprints.isEmpty())
+            throw new FingerprintingException();
+            
+        track.setFingerprints(fingerprints);
+        Integer id = trackService.insert(track);
+        
+        if (id == null)
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        else
+            return new ResponseEntity(HttpStatus.CREATED);
     }
     
     private AudioType.Type getAudioType(MultipartFile file) {
