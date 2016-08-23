@@ -43,7 +43,7 @@
                                         <button class="btn btn-primary dropdown-toggle" type="button"
                                                 id="dropdownMenu"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="glyphicon glyphicon-user"></span> user
+                                            <span class="glyphicon glyphicon-user"></span> <c:out value="${username}"/>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">

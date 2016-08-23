@@ -112,8 +112,6 @@ public class AudioMathUtil {
         int[][] peaks = new int[frames.length][2];
         double resolution = getFrequencyResolution(sampleRate, frameSize);
 
-        LOGGER.info("resolution " + resolution + " Hz");
-
         int frameMinusOverlap = frameSize - overlapSize;
         Double[] frame;
         List<Double> temp;

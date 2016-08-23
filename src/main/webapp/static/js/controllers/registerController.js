@@ -1,4 +1,4 @@
-app.controller('RegisterCtrl', function($scope, $window, AuthService){
+app.controller('RegisterCtrl', function($scope, $window, AuthService, ElementService){
     var statusElement = document.getElementById('status');
     var csrfToken = document.getElementsByName('_csrf')[0].content;
 
@@ -6,6 +6,7 @@ app.controller('RegisterCtrl', function($scope, $window, AuthService){
 
 
     $scope.register = function(user) {
+        ElementService.hide(statusElement);
         AuthService.register(user, csrfToken, statusElement);
     };
 
@@ -46,7 +47,10 @@ app.service('AuthService', function($http, $window, ValidatorService, StatusServ
                     $window.location.href = url.login + "?register";
                 },
                 function error(response) {
-                    StatusService.setStatus(statusElement, false, 'error ' + response.status);
+                    if (response.status == 422)
+                        StatusService.setStatus(statusElement, false, 'Username is taken');
+                    else
+                        StatusService.setStatus(statusElement, false, 'error ' + response.status);
                 }
             );
         } else

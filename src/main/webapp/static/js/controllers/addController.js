@@ -39,8 +39,10 @@ app.controller('AddCtrl', function ($scope, $window, $http, StatusService, Eleme
         ElementService.hide(statusElement);
 
         if ($scope.track.year == 0 || $scope.track.title.length == 0 ||
-            $scope.track.albumTitle.length == 0 || $scope.track.artist.length == 0)
+            $scope.track.albumTitle.length == 0 || $scope.track.artist.length == 0) {
             StatusService.setStatus(statusElement, false, message.fieldEmpty);
+            return;
+        }
 
 
         var formData = $scope.createFormData();

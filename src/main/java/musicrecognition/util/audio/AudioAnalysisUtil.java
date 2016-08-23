@@ -28,16 +28,12 @@ public class AudioAnalysisUtil {
      * Peak is a <code>int[]</code> where element at index 0 is a frequency, element at index 1 is a point in time,
      * both represented by integers.<br>
      * */
-    public static int[][] getSpectrumPeaks(File file, AudioType type) {
+    public static int[][] getSpectrumPeaks(File file, AudioType type) throws IOException {
         double[] samples = null;
         int sampleRate = 0;
 
-        try {
-            samples = type.getSamples(file, Global.MAX_FILE_SIZE);
-            sampleRate = (int) type.getSampleRate(file);
-        } catch (IOException e) {
-            LOGGER.error("io exception", e);
-        }
+        samples = type.getSamples(file, Global.MAX_FILE_SIZE);
+        sampleRate = (int) type.getSampleRate(file);
 
         if (sampleRate == 0 || samples == null)
             return null;
@@ -46,19 +42,12 @@ public class AudioAnalysisUtil {
         int frameSize = getFrameSize(sampleRate);
         int overlapSize = getOverlapSize(frameSize);
 
-        LOGGER.info("sample rate " + sampleRate);
-        LOGGER.info("frame size " + frameSize);
-        LOGGER.info("overlap " + overlapSize);
-
 
         double[][] frames = getFrames(samples, sampleRate, frameSize, overlapSize);
         frames = applyWindowFunction(hannWindow, frames);
 
-        LOGGER.info("frames " + frames.length + " x " + frames[0].length);
-
+        LOGGER.info("applying Fourier transform...");
         frames = applyFFT(frames, sampleRate);
-
-        LOGGER.info("frames fft " + frames.length + " x " + frames[0].length);
 
         return AudioMathUtil.getSpectrumPeaks(frames, sampleRate, frameSize, overlapSize);
     }
