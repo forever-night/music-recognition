@@ -3,8 +3,10 @@ package musicrecognition.dao.impl;
 import musicrecognition.dao.interfaces.UserDao;
 import musicrecognition.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -44,7 +46,7 @@ public class UserDaoImpl implements UserDao {
     }
     
     @Override
-    public Integer insert(User user) {
+    public Integer insert(User user) throws DuplicateKeyException {
         if (validate(user)) {
             user.prePersist();
     
@@ -81,6 +83,16 @@ public class UserDaoImpl implements UserDao {
             return null;
         else
             return result.get(0);
+    }
+    
+    @Override
+    public boolean checkIfExists(User user) {
+        String query = "select count(*) from \"user\" u where u.username = :username and u.password = :password";
+        
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
+        Integer result = namedParameterJdbcTemplate.queryForObject(query, parameterSource, Integer.class);
+        
+        return result > 0;
     }
     
     private boolean validate(User user) {

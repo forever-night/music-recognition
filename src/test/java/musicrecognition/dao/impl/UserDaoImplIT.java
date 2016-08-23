@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
@@ -63,6 +64,12 @@ public class UserDaoImplIT {
         Assert.assertEquals(User.Role.USER, user.getRole());
     }
     
+    @Test(expected = DuplicateKeyException.class)
+    public void insertUserDuplicate() {
+        userDao.insert(user);
+        userDao.insert(user);
+    }
+    
     @Test
     public void getByUsernameNotFound() {
         User actual = userDao.getByUsername("test");
@@ -75,5 +82,19 @@ public class UserDaoImplIT {
         User actual = userDao.getByUsername(user.getUsername());
         
         Assert.assertEquals(user, actual);
+    }
+    
+    @Test
+    public void checkIfExistsFalse() {
+        boolean actual = userDao.checkIfExists(user);
+        Assert.assertFalse(actual);
+    }
+    
+    @Test
+    public void checkIfExistsTrue() {
+        userDao.insert(user);
+        boolean actual = userDao.checkIfExists(user);
+        
+        Assert.assertTrue(actual);
     }
 }

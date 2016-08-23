@@ -9,13 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigWebContextLoader.class,
@@ -40,6 +39,12 @@ public class UserServiceImplIT {
         
         Assert.assertTrue(id > 0);
         Assert.assertNotEquals(textPassword, user.getPassword());
+    }
+    
+    @Test(expected = DuplicateKeyException.class)
+    public void insertUserDuplicate() {
+        userService.insert(user);
+        userService.insert(user);
     }
     
     @Test

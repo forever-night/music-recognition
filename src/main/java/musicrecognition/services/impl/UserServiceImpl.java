@@ -3,11 +3,13 @@ package musicrecognition.services.impl;
 import musicrecognition.dao.interfaces.UserDao;
 import musicrecognition.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,8 @@ public class UserServiceImpl implements UserService {
      * Encrypts password and inserts user to the database.
      * */
     @Override
-    public Integer insert(musicrecognition.entities.User user) {
+    @Transactional
+    public Integer insert(musicrecognition.entities.User user) throws DuplicateKeyException {
         String password = user.getPassword();
         user.setPassword(passwordEncoder.encode(password));
         
