@@ -4,7 +4,6 @@ import musicrecognition.dao.interfaces.UserDao;
 import musicrecognition.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -24,9 +23,6 @@ import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-    @Autowired
-    JdbcTemplate jdbcTemplate;
-    
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     

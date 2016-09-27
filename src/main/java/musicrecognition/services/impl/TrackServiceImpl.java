@@ -74,13 +74,11 @@ public class TrackServiceImpl implements TrackService {
         
         
         List<TrackMatch> trackMatches = new ArrayList<>();
+        TrackMatch temp;
         
         for (Map<String, Integer> match : matches) {
-            TrackMatch trackMatch = new TrackMatch();
-            
-            trackMatch.setTrack(trackDao.getById(match.get("trackId")));
-            trackMatch.setMatchCount(match.get("matchCount"));
-            trackMatches.add(trackMatch);
+            temp = mapToTrackMatch(match);
+            trackMatches.add(temp);
         }
         
         return trackMatches;
@@ -89,5 +87,14 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
         return getTracksByFingerprints(Global.MAX_FINGERPRINT_MATCHES, fingerprints);
+    }
+    
+    private TrackMatch mapToTrackMatch(Map<String, Integer> map) {
+        TrackMatch trackMatch = new TrackMatch();
+    
+        trackMatch.setTrack(trackDao.getById(map.get("trackId")));
+        trackMatch.setMatchCount(map.get("matchCount"));
+        
+        return trackMatch;
     }
 }

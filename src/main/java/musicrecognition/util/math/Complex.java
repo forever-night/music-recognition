@@ -60,11 +60,6 @@ public class Complex {
 
         double[] result = new double[] { magnitude, theta };
 
-//        if (result[0] < 0 && result[1] > Math.PI) {
-//            result[0] *= -1;
-//            result[1] -= Math.PI;
-//        }
-
         return simplify(result);
     }
 

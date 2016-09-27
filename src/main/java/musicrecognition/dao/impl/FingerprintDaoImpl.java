@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 @Repository
 public class FingerprintDaoImpl implements FingerprintDao {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
     
     @Override
     @Transactional

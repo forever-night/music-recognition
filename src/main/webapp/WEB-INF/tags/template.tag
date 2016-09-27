@@ -24,62 +24,63 @@
 </head>
 <body ng-cloak ng-controller="MainCtrl">
 <div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand"><a href="<c:url value="/"/>">Music Recognition</a></h3>
-                    <nav>
-                        <ul class="nav masthead-nav">
-                            <li id="navIdentify"><a href="<c:url value="/identify"/>">Identify</a></li>
-                            <li id="navHow"><a href="<c:url value="/howitworks"/>">How it works</a></li>
-                            <c:choose>
-                                <c:when test="${username == null}">
-                                    <li id="navLogin"><a href="<c:url value="/login"/>">Log in</a></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li id="navUser">
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button"
-                                                id="dropdownMenu"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="glyphicon glyphicon-user"></span> <c:out value="${username}"/>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">
-                                            <c:if test="${role == 'ADMIN'}">
-                                                <li><a href="<c:url value="/add"/>">Add a track</a></li>
-                                                <li role="separator" class="divider"></li>
-                                            </c:if>
-                                            <li>
-                                            <form method="post" action="<c:url value="/logout"/>" class="dropdown-form">
-                                                <input type="hidden"
-                                                       name="${_csrf.parameterName}"
-                                                       value="${_csrf.token}"/>
-                                                <a href="javascript:;" onclick="parentNode.submit();"
-                                                   class="btn">Log out</a>
-                                            </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
+<div class="site-wrapper-inner">
+<div class="cover-container">
+<div class="masthead clearfix">
+    <div class="inner">
+        <h3 class="masthead-brand"><a href="<c:url value="/"/>">Music Recognition</a></h3>
+        <nav>
+            <ul class="nav masthead-nav">
+            <li id="navIdentify"><a href="<c:url value="/identify"/>">Identify</a></li>
+            <li id="navHow"><a href="<c:url value="/howitworks"/>">How it works</a></li>
+            <c:choose>
+                <c:when test="${username == null}">
+                    <li id="navLogin"><a href="<c:url value="/login"/>">Log in</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li id="navUser">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                id="dropdownMenu"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user"></span> <c:out value="${username}"/>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">
+                            <c:if test="${role == 'ADMIN'}">
+                                <li><a href="<c:url value="/add"/>">Add a track</a></li>
+                                <li role="separator" class="divider"></li>
+                            </c:if>
+                            <li>
+                                <form method="post" action="<c:url value="/logout"/>"
+                                      class="dropdown-form">
+                                    <input type="hidden"
+                                           name="${_csrf.parameterName}"
+                                           value="${_csrf.token}"/>
+                                    <a href="javascript:;" onclick="parentNode.submit();"
+                                       class="btn">Log out</a>
+                                </form>
+                            </li>
                         </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="inner cover">
-                <jsp:doBody/>
-            </div>
-            <div class="mastfoot">
-                <div class="inner">
-                    <p>Source code @ <a class="text-info" href="https://github.com/forever-night/music-recognition">GitHub
-                    </a></p>
-                </div>
-            </div>
-        </div>
+                    </div>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+            </ul>
+        </nav>
     </div>
+</div>
+<div class="inner cover">
+    <jsp:doBody/>
+</div>
+<div class="mastfoot">
+    <div class="inner">
+        <p>Source code @ <a class="text-info" href="https://github.com/forever-night/music-recognition">GitHub
+        </a></p>
+    </div>
+</div>
+</div>
+</div>
 </div>
 </body>
 </html>
