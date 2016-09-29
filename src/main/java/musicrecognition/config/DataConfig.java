@@ -15,7 +15,7 @@ public class DataConfig {
         JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
         dataSourceLookup.setResourceRef(true);
 
-        return dataSourceLookup.getDataSource("java:comp/env/jdbc/music_recognitionDS");
+        return dataSourceLookup.getDataSource("java:/jboss/datasources/MusicRecognitionDS");
     }
 
     @Bean

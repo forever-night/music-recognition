@@ -1,10 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <t:template>
 <jsp:attribute name="head">
     <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/inline-label.css"/>"/>
-
     <script src="<c:url value="/static/js/classes/trackMatch.js"/>"></script>
     <script src="<c:url value="/static/js/controllers/resultController.js"/>"></script>
     <title>Result</title>

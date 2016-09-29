@@ -1,6 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <t:template>
 <jsp:attribute name="head">
     <script src="<c:url value="/static/js/controllers/loginController.js"/>"></script>
@@ -13,9 +14,7 @@
         <c:if test="${param.error != null}">{{loginError()}}</c:if>
         <c:if test="${param.logout != null}">{{logoutSuccess()}}</c:if>
         <c:if test="${param.register != null}">{{registerSuccess()}}</c:if>
-        <input type="hidden"
-               name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
+        <sec:csrfInput/>
         <div class="form-group">
             <label for="username" class="col-sm-offset-2 col-sm-2 control-label">Username</label>
             <div class="col-sm-6">

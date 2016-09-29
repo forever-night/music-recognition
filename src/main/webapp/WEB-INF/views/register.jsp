@@ -1,13 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <t:template>
 <jsp:attribute name="head">
     <script src="<c:url value="/static/js/classes/user.js"/>"></script>
     <script src="<c:url value="/static/js/controllers/registerController.js"/>"></script>
     <title>Register</title>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <sec:csrfMetaTags/>
 </jsp:attribute>
 <jsp:body>
 <div ng-controller="RegisterCtrl">
