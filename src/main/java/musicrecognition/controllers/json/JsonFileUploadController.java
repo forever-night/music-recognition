@@ -1,6 +1,6 @@
 package musicrecognition.controllers.json;
 
-import musicrecognition.dto.TrackMatch;
+import musicrecognition.dto.TrackMatchDto;
 import musicrecognition.entities.Track;
 import musicrecognition.exceptions.FingerprintingException;
 import musicrecognition.exceptions.NoContentException;
@@ -9,7 +9,6 @@ import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.services.interfaces.IdentificationService;
 import musicrecognition.services.interfaces.TrackService;
 import musicrecognition.util.audio.audiotypes.AudioType;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class JsonFileUploadController {
     
     @RequestMapping(method = RequestMethod.POST,
             params = "identify", consumes = {"multipart/form-data"})
-    public ResponseEntity<List<TrackMatch>> identify(@RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<List<TrackMatchDto>> identify(@RequestParam MultipartFile file) throws IOException {
         if (file == null)
             throw new NoContentException();
         
@@ -49,12 +48,12 @@ public class JsonFileUploadController {
 
 
         File tempFile = multipartToFile(file, type);
-        List<TrackMatch> matches = identificationService.identify(tempFile, type);
+        List<TrackMatchDto> trackMatches = identificationService.identify(tempFile, type);
         
         if (!tempFile.delete())
             tempFile.deleteOnExit();
         
-        return new ResponseEntity<>(matches, HttpStatus.OK);
+        return new ResponseEntity<>(trackMatches, HttpStatus.OK);
     }
     
     @RequestMapping(method = RequestMethod.POST,

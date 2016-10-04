@@ -1,7 +1,7 @@
 package musicrecognition.services.impl;
 
 import musicrecognition.config.TestConfig;
-import musicrecognition.dto.TrackMatch;
+import musicrecognition.dto.TrackMatchDto;
 import musicrecognition.entities.Track;
 import musicrecognition.services.interfaces.TrackService;
 import org.junit.Assert;
@@ -65,7 +65,7 @@ public class TrackServiceImplIT {
     
     @Test
     public void getTracksByFingerprintsNull() {
-        List<TrackMatch> actual = trackService.getTracksByFingerprints(null);
+        List<TrackMatchDto> actual = trackService.getTracksByFingerprints(null);
         Assert.assertNull(actual);
     }
     
@@ -73,7 +73,7 @@ public class TrackServiceImplIT {
     public void getTracksByFingerprintsEmpty() {
         Set<Integer> fingerprints = new HashSet<>();
         
-        List<TrackMatch> actual = trackService.getTracksByFingerprints(fingerprints);
+        List<TrackMatchDto> actual = trackService.getTracksByFingerprints(fingerprints);
         Assert.assertNull(actual);
     }
     
@@ -85,7 +85,7 @@ public class TrackServiceImplIT {
         int expectedId = trackService.insert(track);
         track.setId(expectedId);
         
-        List<TrackMatch> actual = trackService.getTracksByFingerprints(fingerprints);
+        List<TrackMatchDto> actual = trackService.getTracksByFingerprints(fingerprints);
         
         Assert.assertFalse(actual.isEmpty());
         Assert.assertEquals(track, actual.get(0).getTrack());

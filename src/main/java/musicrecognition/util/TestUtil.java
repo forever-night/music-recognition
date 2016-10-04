@@ -1,5 +1,6 @@
 package musicrecognition.util;
 
+import musicrecognition.dto.UserDto;
 import musicrecognition.entities.Track;
 import musicrecognition.entities.User;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -14,6 +15,7 @@ public class TestUtil {
     public static User createUser() {
         User user = new User();
         user.setUsername("username");
+        user.setEmail("username@test.com");
         user.setPassword("password");
         
         return user;
@@ -57,17 +59,19 @@ public class TestUtil {
         return tracks;
     }
     
-    public static musicrecognition.dto.User createUserDto() {
-        musicrecognition.dto.User userDto = new musicrecognition.dto.User();
+    public static UserDto createUserDto() {
+        UserDto userDto = new UserDto();
         userDto.setUsername("user");
+        userDto.setEmail("user@test.com");
         userDto.setPassword("password");
         
         return userDto;
     }
     
-    public static User dtoToEntity(musicrecognition.dto.User userDto) {
-        musicrecognition.entities.User userEntity = new musicrecognition.entities.User();
+    public static User dtoToEntity(UserDto userDto) {
+        User userEntity = new User();
         userEntity.setUsername(userDto.getUsername());
+        userEntity.setEmail(userDto.getEmail());
         userEntity.setPassword(userDto.getPassword());
         
         return userEntity;

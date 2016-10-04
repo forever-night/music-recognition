@@ -2,11 +2,10 @@ package musicrecognition.dto;
 
 import musicrecognition.entities.Track;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 
-public class TrackMatch {
+public class TrackMatchDto {
     private Track track;
     private Integer matchCount;
     private Integer fingerprintCount;
@@ -39,7 +38,7 @@ public class TrackMatch {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TrackMatch that = (TrackMatch) o;
+        TrackMatchDto that = (TrackMatchDto) o;
         return Objects.equals(track, that.track) &&
                 Objects.equals(matchCount, that.matchCount) &&
                 Objects.equals(fingerprintCount, that.fingerprintCount);
@@ -52,7 +51,7 @@ public class TrackMatch {
     
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("TrackMatch{");
+        final StringBuffer sb = new StringBuffer("TrackMatchDto{");
         sb.append("track=").append(track);
         sb.append(", matchCount=").append(matchCount);
         sb.append(", fingerprintCount=").append(fingerprintCount);

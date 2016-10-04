@@ -1,7 +1,8 @@
 package musicrecognition.services.interfaces;
 
+import musicrecognition.dto.UserDto;
+import musicrecognition.entities.User;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.core.userdetails.User;
 
 
 public interface UserService {
@@ -12,9 +13,9 @@ public interface UserService {
      * </ul>
      * @throws DuplicateKeyException if entity violates unique constraint
      * */
-    Integer insert(musicrecognition.entities.User user) throws DuplicateKeyException;
+    Integer insert(User user) throws DuplicateKeyException;
     
-    User getSpringUserByUsername(String username);
+    org.springframework.security.core.userdetails.User getSpringUserByUsername(String username);
     
-    musicrecognition.entities.User dtoToEntity(musicrecognition.dto.User userDto);
+    User dtoToEntity(UserDto userDto);
 }

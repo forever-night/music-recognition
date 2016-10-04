@@ -1,6 +1,6 @@
 package musicrecognition.services.interfaces;
 
-import musicrecognition.dto.TrackMatch;
+import musicrecognition.dto.TrackMatchDto;
 import musicrecognition.entities.Track;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -22,7 +22,7 @@ public interface TrackService {
     
     boolean checkIfExists(Track track);
     
-    List<TrackMatch> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints);
+    List<TrackMatchDto> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints);
     
-    List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints);
+    List<TrackMatchDto> getTracksByFingerprints(Set<Integer> fingerprints);
 }

@@ -24,6 +24,7 @@ public class User {
     private Integer id;
     private String username;
     private String password;
+    private String email;
     private Boolean isEnabled = Boolean.TRUE;
     private Role role = Role.USER;
     private Date createdAt;
@@ -58,6 +59,14 @@ public class User {
         this.password = password;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public Boolean getEnabled() {
         return isEnabled;
     }
@@ -89,13 +98,14 @@ public class User {
         User user = (User) o;
         return Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(isEnabled, user.isEnabled) &&
                 role == user.role;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, isEnabled, role);
+        return Objects.hash(username, password, email, isEnabled, role);
     }
     
     @Override
@@ -104,6 +114,7 @@ public class User {
         sb.append("id=").append(id);
         sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
         sb.append(", isEnabled=").append(isEnabled);
         sb.append(", role=").append(role);
         sb.append(", createdAt=").append(createdAt);

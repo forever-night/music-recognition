@@ -1,6 +1,7 @@
 package musicrecognition.services.impl;
 
 import musicrecognition.config.TestConfig;
+import musicrecognition.dto.UserDto;
 import musicrecognition.entities.User;
 import musicrecognition.services.interfaces.UserService;
 import musicrecognition.util.TestUtil;
@@ -52,7 +53,7 @@ public class UserServiceImplIT {
         String expectedUsername = "test";
         String expectedPassword = "testpassword";
         
-        musicrecognition.dto.User userDto = new musicrecognition.dto.User();
+        UserDto userDto = new UserDto();
         userDto.setUsername(expectedUsername);
         userDto.setPassword(expectedPassword);
         

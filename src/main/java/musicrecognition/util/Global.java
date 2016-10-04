@@ -42,8 +42,24 @@ public class Global {
         }
     }
     
+    public enum EmailSubject {
+        REGISTRATION_CONFIRM ("Registration confirmation - MusicRecognition");
+        
+        private final String message;
+        
+        EmailSubject(String message) {
+            this.message = message;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+    }
+    
     public static final int DEFAULT_SAMPLE_RATE = 41000;
     public static final int MAX_FILE_SIZE = 15728640;       // 15 MB
     public static final int MAX_FINGERPRINT_PAIRS = 10;
     public static final int MAX_FINGERPRINT_MATCHES = 4;
+    
+    public static final String APP_EMAIL = "musicrecognitionservice@gmail.com";
 }

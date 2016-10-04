@@ -46,8 +46,8 @@ public class UserDaoImpl implements UserDao {
         if (validate(user)) {
             user.prePersist();
     
-            String query = "INSERT INTO \"user\" (username, password, role, enabled, created_at) " +
-                    "VALUES (:username, :password, :role, :enabled, :createdAt)";
+            String query = "INSERT INTO \"user\" (username, password, role, enabled, created_at, email) " +
+                    "VALUES (:username, :password, :role, :enabled, :createdAt, :email)";
     
             Map<String, Object> parameterMap = new HashMap<>();
             parameterMap.put("username", user.getUsername());
@@ -55,6 +55,7 @@ public class UserDaoImpl implements UserDao {
             parameterMap.put("role", user.getRole().toString());
             parameterMap.put("enabled", user.getEnabled());
             parameterMap.put("createdAt", user.getCreatedAt());
+            parameterMap.put("email", user.getEmail());
             
             SqlParameterSource parameterSource = new MapSqlParameterSource(parameterMap);
             

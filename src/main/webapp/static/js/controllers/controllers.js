@@ -17,6 +17,7 @@ message = {
     fieldEmpty: 'One of the fields is empty',
     noAccess: 'Access denied',
     noPasswordMatch: 'Passwords don\'t match',
+    emailNotValid: 'e-mail is not valid!',
     loginError: 'Incorrect login or password',
     logoutSuccess: 'Logout successful!',
     registerSuccess: 'Registration successful!'
@@ -143,7 +144,7 @@ function setActive(element) {
         if (navElements.hasOwnProperty(propt))
             if (element == navElements[propt])
                 navElements[propt].setAttribute('class', 'active');
-            else
+            else if (navElements[propt] != null)
                 navElements[propt].removeAttribute('class');
     }
 }

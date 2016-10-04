@@ -2,6 +2,8 @@ package musicrecognition.controllers.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import musicrecognition.controllers.WebExceptionHandler;
+import musicrecognition.dto.UserDto;
+import musicrecognition.entities.User;
 import musicrecognition.services.interfaces.UserService;
 import musicrecognition.util.TestUtil;
 import org.junit.Before;
@@ -26,7 +28,7 @@ public class RegisterRestControllerTest {
     MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
     MockMvc mockMvc;
     
-    private musicrecognition.dto.User userDto;
+    private UserDto userDto;
     
     @Before
     public void setUp() {
@@ -46,7 +48,7 @@ public class RegisterRestControllerTest {
     
     @Test
     public void registerUserNotNull() throws Exception {
-        musicrecognition.entities.User userEntity = TestUtil.dtoToEntity(userDto);
+        User userEntity = TestUtil.dtoToEntity(userDto);
 
         when(mockUserService.dtoToEntity(userDto))
                 .thenReturn(userEntity);
@@ -77,7 +79,7 @@ public class RegisterRestControllerTest {
     
     @Test
     public void registerUserDuplicate() throws Exception {
-        musicrecognition.entities.User userEntity = TestUtil.dtoToEntity(userDto);
+        User userEntity = TestUtil.dtoToEntity(userDto);
     
         when(mockUserService.dtoToEntity(userDto))
                 .thenReturn(userEntity);

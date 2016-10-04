@@ -21,6 +21,14 @@ app.service('ValidatorService', function(){
    this.validatePassword = function(password, confirmPassword) {
        return password != null && confirmPassword != null && password == confirmPassword;
    } ;
+
+   this.validateEmail = function(email) {
+       if (email == null || email.length == 0)
+           return false;
+
+       var regex = /^[\w\d]{3,}@\w{3,}\.\w{2,}/;
+       return regex.test(email);
+   }
 });
 
 app.service('AuthService', function($http, $window, ValidatorService, StatusService){
@@ -36,12 +44,16 @@ app.service('AuthService', function($http, $window, ValidatorService, StatusServ
 
     this.register = function(user, csrfToken, statusElement) {
         if (user.password == null || user.password.length == 0 ||
-            user.confirm == null || user.confirm.length == 0) {
+            user.confirm == null || user.confirm.length == 0 ||
+            user.email == null || user.email.length == 0) {
             StatusService.setStatus(statusElement, false, message.fieldEmpty);
             return;
         }
 
-        if (ValidatorService.validatePassword(user.password, user.confirm)) {
+        var passwordValid = ValidatorService.validatePassword(user.password, user.confirm);
+        var emailValid = ValidatorService.validateEmail(user.email);
+
+        if (passwordValid && emailValid) {
             this.postUser(user, csrfToken).then(
                 function success() {
                     $window.location.href = url.login + "?register";
@@ -53,7 +65,10 @@ app.service('AuthService', function($http, $window, ValidatorService, StatusServ
                         StatusService.setStatus(statusElement, false, 'error ' + response.status);
                 }
             );
-        } else
+        } else if (!passwordValid) {
             StatusService.setStatus(statusElement, false, message.noPasswordMatch);
+        } else if (!emailValid) {
+            StatusService.setStatus(statusElement, false, message.emailNotValid);
+        }
     };
 });

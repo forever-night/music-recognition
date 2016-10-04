@@ -3,11 +3,12 @@ package musicrecognition.dto;
 import java.util.Objects;
 
 
-public class User {
+public class UserDto {
     private String username;
     private String password;
+    private String email;
     
-    public User() {}
+    public UserDto() {}
     
     public String getUsername() {
         return username;
@@ -25,13 +26,21 @@ public class User {
         this.password = password;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(username, userDto.username) &&
+                Objects.equals(password, userDto.password);
     }
     
     @Override
@@ -41,9 +50,10 @@ public class User {
     
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("User{");
+        final StringBuffer sb = new StringBuffer("UserDto{");
         sb.append("username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
         sb.append('}');
         return sb.toString();
     }

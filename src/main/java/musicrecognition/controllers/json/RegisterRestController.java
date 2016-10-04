@@ -1,5 +1,7 @@
 package musicrecognition.controllers.json;
 
+import musicrecognition.dto.UserDto;
+import musicrecognition.entities.User;
 import musicrecognition.exceptions.NoContentException;
 import musicrecognition.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +21,17 @@ public class RegisterRestController {
     
     public RegisterRestController() {}
     
-//    for tests
     public RegisterRestController(UserService userService) {
         this.userService = userService;
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody musicrecognition.dto.User userDto) {
-        if (userDto == null || userDto.getUsername().isEmpty() || userDto.getPassword().isEmpty())
+    public ResponseEntity register(@RequestBody UserDto userDto) {
+        if (userDto == null || userDto.getUsername().isEmpty() ||
+                userDto.getPassword().isEmpty() || userDto.getEmail().isEmpty())
             throw new NoContentException();
         
-        musicrecognition.entities.User userEntity = userService.dtoToEntity(userDto);
+        User userEntity = userService.dtoToEntity(userDto);
         Integer id = userService.insert(userEntity);
         
         if (id == null)

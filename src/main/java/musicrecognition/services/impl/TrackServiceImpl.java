@@ -1,7 +1,7 @@
 package musicrecognition.services.impl;
 
 import musicrecognition.dao.interfaces.TrackDao;
-import musicrecognition.dto.TrackMatch;
+import musicrecognition.dto.TrackMatchDto;
 import musicrecognition.entities.Track;
 import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.services.interfaces.TrackService;
@@ -13,7 +13,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 @Service
@@ -61,7 +64,7 @@ public class TrackServiceImpl implements TrackService {
     
     @Override
     @Transactional
-    public List<TrackMatch> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints) {
+    public List<TrackMatchDto> getTracksByFingerprints(int maxMatches, Set<Integer> fingerprints) {
         if (fingerprints == null || fingerprints.isEmpty())
             return null;
         
@@ -73,8 +76,8 @@ public class TrackServiceImpl implements TrackService {
             return null;
         
         
-        List<TrackMatch> trackMatches = new ArrayList<>();
-        TrackMatch temp;
+        List<TrackMatchDto> trackMatches = new ArrayList<>();
+        TrackMatchDto temp;
         
         for (Map<String, Integer> match : matches) {
             temp = mapToTrackMatch(match);
@@ -85,16 +88,16 @@ public class TrackServiceImpl implements TrackService {
     }
     
     @Override
-    public List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
+    public List<TrackMatchDto> getTracksByFingerprints(Set<Integer> fingerprints) {
         return getTracksByFingerprints(Global.MAX_FINGERPRINT_MATCHES, fingerprints);
     }
     
-    private TrackMatch mapToTrackMatch(Map<String, Integer> map) {
-        TrackMatch trackMatch = new TrackMatch();
+    private TrackMatchDto mapToTrackMatch(Map<String, Integer> map) {
+        TrackMatchDto trackMatchDto = new TrackMatchDto();
     
-        trackMatch.setTrack(trackDao.getById(map.get("trackId")));
-        trackMatch.setMatchCount(map.get("matchCount"));
+        trackMatchDto.setTrack(trackDao.getById(map.get("trackId")));
+        trackMatchDto.setMatchCount(map.get("matchCount"));
         
-        return trackMatch;
+        return trackMatchDto;
     }
 }

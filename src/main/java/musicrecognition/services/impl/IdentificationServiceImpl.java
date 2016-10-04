@@ -1,6 +1,6 @@
 package musicrecognition.services.impl;
 
-import musicrecognition.dto.TrackMatch;
+import musicrecognition.dto.TrackMatchDto;
 import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.services.interfaces.IdentificationService;
 import musicrecognition.services.interfaces.TrackService;
@@ -23,20 +23,20 @@ public class IdentificationServiceImpl implements IdentificationService {
     TrackService trackService;
     
     @Override
-    public List<TrackMatch> identify(File file, AudioType.Type type) throws IOException {
+    public List<TrackMatchDto> identify(File file, AudioType.Type type) throws IOException {
         Set<Integer> fingerprints = fingerprintService.createFingerprints(file, type);
     
         return getTracksByFingerprints(fingerprints);
     }
     
-    private List<TrackMatch> getTracksByFingerprints(Set<Integer> fingerprints) {
-        List<TrackMatch> trackMatches = trackService.getTracksByFingerprints(fingerprints);
+    private List<TrackMatchDto> getTracksByFingerprints(Set<Integer> fingerprints) {
+        List<TrackMatchDto> trackMatches = trackService.getTracksByFingerprints(fingerprints);
     
         if (trackMatches == null || trackMatches.isEmpty())
             return null;
         
-        for (TrackMatch trackMatch : trackMatches)
-            trackMatch.setFingerprintCount(fingerprints.size());
+        for (TrackMatchDto trackMatchDto : trackMatches)
+            trackMatchDto.setFingerprintCount(fingerprints.size());
     
         return trackMatches;
     }

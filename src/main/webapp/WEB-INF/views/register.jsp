@@ -21,6 +21,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="inputEmail" class="col-sm-offset-1 col-sm-3 control-label">e-mail</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="inputEmail" name="inputEmail" type="text"
+                       ng-model="user.email" required>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="inputPassword" class="col-sm-offset-1 col-sm-3 control-label">Password</label>
             <div class="col-sm-6">
                 <input class="form-control" id="inputPassword" name="inputPassword" type="password"
