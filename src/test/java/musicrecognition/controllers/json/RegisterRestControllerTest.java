@@ -15,6 +15,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,9 +51,6 @@ public class RegisterRestControllerTest {
     public void registerUserNotNull() throws Exception {
         User userEntity = TestUtil.dtoToEntity(userDto);
 
-        when(mockUserService.dtoToEntity(userDto))
-                .thenReturn(userEntity);
-        
         when(mockUserService.insert(userEntity))
                 .thenReturn(1);
         
@@ -79,12 +77,7 @@ public class RegisterRestControllerTest {
     
     @Test
     public void registerUserDuplicate() throws Exception {
-        User userEntity = TestUtil.dtoToEntity(userDto);
-    
-        when(mockUserService.dtoToEntity(userDto))
-                .thenReturn(userEntity);
-    
-        when(mockUserService.insert(userEntity))
+        when(mockUserService.insert(any(UserDto.class)))
                 .thenThrow(DuplicateKeyException.class);
         
         String json = toJson(userDto);

@@ -1,5 +1,8 @@
 package musicrecognition.dto;
 
+import musicrecognition.entities.User;
+
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -7,6 +10,9 @@ public class UserDto {
     private String username;
     private String password;
     private String email;
+    private Date createdAt;
+    private Boolean enabled;
+    private User.Role role;
     
     public UserDto() {}
     
@@ -32,6 +38,30 @@ public class UserDto {
     
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Boolean getEnabled() {
+        return enabled;
+    }
+    
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    public User.Role getRole() {
+        return role;
+    }
+    
+    public void setRole(User.Role role) {
+        this.role = role;
     }
     
     @Override

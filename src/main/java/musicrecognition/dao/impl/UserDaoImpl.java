@@ -33,10 +33,26 @@ public class UserDaoImpl implements UserDao {
             user.setId(resultSet.getInt("id"));
             user.setUsername(resultSet.getString("username"));
             user.setPassword(resultSet.getString("password"));
+            user.setEmail(resultSet.getString("email"));
             user.setEnabled(resultSet.getBoolean("enabled"));
             user.setCreatedAt(resultSet.getTimestamp("created_at"));
             user.setRole(User.Role.valueOf(resultSet.getString("role")));
             
+            return user;
+        }
+    }
+    
+    private static final class PartialUserRowMapper implements RowMapper<User> {
+        @Override
+        public User mapRow(ResultSet resultSet, int i) throws SQLException {
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setEmail(resultSet.getString("email"));
+            user.setEnabled(resultSet.getBoolean("enabled"));
+            user.setCreatedAt(resultSet.getTimestamp("created_at"));
+            user.setRole(User.Role.valueOf(resultSet.getString("role")));
+    
             return user;
         }
     }
@@ -80,6 +96,17 @@ public class UserDaoImpl implements UserDao {
             return null;
         else
             return result.get(0);
+    }
+    
+    @Override
+    public List<User> getAll() {
+        String query = "select * from \"user\" u";
+        List<User> result = namedParameterJdbcTemplate.query(query, new PartialUserRowMapper());
+        
+        if (result.isEmpty())
+            return null;
+        else
+            return result;
     }
     
     @Override

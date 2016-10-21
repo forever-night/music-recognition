@@ -4,6 +4,8 @@ import musicrecognition.dto.UserDto;
 import musicrecognition.entities.User;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
+
 
 public interface UserService {
     /**
@@ -15,7 +17,17 @@ public interface UserService {
      * */
     Integer insert(User user) throws DuplicateKeyException;
     
-    org.springframework.security.core.userdetails.User getSpringUserByUsername(String username);
+    /**
+     * Maps user DTO to entity and calls insert(user).
+     * */
+    Integer insert(UserDto userDto);
     
-    User dtoToEntity(UserDto userDto);
+    /**
+     * Gets all persistent users, password field is omitted.
+     *
+     * @return list of users or null if there are no users.
+     * */
+    List<UserDto> getAll();
+    
+    org.springframework.security.core.userdetails.User getSpringUserByUsername(String username);
 }

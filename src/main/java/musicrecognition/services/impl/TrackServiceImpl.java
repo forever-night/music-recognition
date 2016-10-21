@@ -2,6 +2,7 @@ package musicrecognition.services.impl;
 
 import musicrecognition.dao.interfaces.TrackDao;
 import musicrecognition.dto.TrackMatchDto;
+import musicrecognition.dto.mappers.TrackMapper;
 import musicrecognition.entities.Track;
 import musicrecognition.services.interfaces.FingerprintService;
 import musicrecognition.services.interfaces.TrackService;
@@ -28,6 +29,9 @@ public class TrackServiceImpl implements TrackService {
     
     @Autowired
     FingerprintService fingerprintService;
+    
+    @Autowired
+    TrackMapper trackMapper;
 
     @Override
     @Transactional
@@ -80,7 +84,7 @@ public class TrackServiceImpl implements TrackService {
         TrackMatchDto temp;
         
         for (Map<String, Integer> match : matches) {
-            temp = mapToTrackMatch(match);
+            temp = trackMapper.toDto(match);
             trackMatches.add(temp);
         }
         
@@ -90,14 +94,5 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public List<TrackMatchDto> getTracksByFingerprints(Set<Integer> fingerprints) {
         return getTracksByFingerprints(Global.MAX_FINGERPRINT_MATCHES, fingerprints);
-    }
-    
-    private TrackMatchDto mapToTrackMatch(Map<String, Integer> map) {
-        TrackMatchDto trackMatchDto = new TrackMatchDto();
-    
-        trackMatchDto.setTrack(trackDao.getById(map.get("trackId")));
-        trackMatchDto.setMatchCount(map.get("matchCount"));
-        
-        return trackMatchDto;
     }
 }

@@ -2,6 +2,7 @@ package musicrecognition.services.impl;
 
 import musicrecognition.dao.interfaces.UserDao;
 import musicrecognition.dto.UserDto;
+import musicrecognition.dto.mappers.UserMapper;
 import musicrecognition.entities.User;
 import musicrecognition.services.interfaces.EmailService;
 import musicrecognition.services.interfaces.UserService;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmailService emailService;
     
+    @Autowired
+    UserMapper userMapper;
+    
     @Override
     @Transactional
     public Integer insert(User user) throws DuplicateKeyException {
@@ -41,22 +45,30 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
+    public Integer insert(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        return insert(user);
+    }
+    
+    @Override
+    public List<UserDto> getAll() {
+        List<User> userList = userDao.getAll();
+        List<UserDto> dtoList = new ArrayList<>();
+        
+        for (User user : userList) {
+            UserDto dto = userMapper.toDto(user);
+            dtoList.add(dto);
+        }
+        
+        return dtoList;
+    }
+    
+    @Override
     public org.springframework.security.core.userdetails.User getSpringUserByUsername(String username) {
         User user = userDao.getByUsername(username);
         
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), getGrantedAuthorities(user));
-    }
-    
-    @Override
-    public User dtoToEntity(UserDto userDto) {
-        User userEntity = new User();
-        
-        userEntity.setUsername(userDto.getUsername());
-        userEntity.setPassword(userDto.getPassword());
-        userEntity.setEmail(userDto.getEmail());
-        
-        return userEntity;
     }
     
     private List<GrantedAuthority> getGrantedAuthorities(User user) {

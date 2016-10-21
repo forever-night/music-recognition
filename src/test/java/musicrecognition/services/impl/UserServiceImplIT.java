@@ -1,7 +1,6 @@
 package musicrecognition.services.impl;
 
 import musicrecognition.config.TestConfig;
-import musicrecognition.dto.UserDto;
 import musicrecognition.entities.User;
 import musicrecognition.services.interfaces.UserService;
 import musicrecognition.util.TestUtil;
@@ -46,22 +45,5 @@ public class UserServiceImplIT {
     public void insertUserDuplicate() {
         userService.insert(user);
         userService.insert(user);
-    }
-    
-    @Test
-    public void dtoToEntity() {
-        String expectedUsername = "test";
-        String expectedPassword = "testpassword";
-        
-        UserDto userDto = new UserDto();
-        userDto.setUsername(expectedUsername);
-        userDto.setPassword(expectedPassword);
-        
-        User userEntity = userService.dtoToEntity(userDto);
-        
-        Assert.assertEquals(expectedUsername, userEntity.getUsername());
-        Assert.assertEquals(expectedPassword, userEntity.getPassword());
-        Assert.assertEquals(User.Role.USER, userEntity.getRole());
-        Assert.assertTrue(userEntity.getEnabled());
     }
 }

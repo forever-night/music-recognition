@@ -3,6 +3,8 @@ package musicrecognition.dao.interfaces;
 import musicrecognition.entities.User;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
+
 
 public interface UserDao {
     /**
@@ -12,6 +14,13 @@ public interface UserDao {
     Integer insert(User user) throws DuplicateKeyException;
         
     User getByUsername(String username);
+    
+    /**
+     * Gets all users from the database, password attribute is omitted.
+     *
+     * @return list of users or null if there are no users.
+     * */
+    List<User> getAll();
     
     boolean checkIfExists(User user);
 }
