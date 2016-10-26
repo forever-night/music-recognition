@@ -12,22 +12,10 @@ public class UserMapper {
         
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
-        
-        if (userDto.getPassword() != null)
-            user.setPassword(userDto.getPassword());
-        
-        if (userDto.getCreatedAt() != null)
-            user.setCreatedAt(userDto.getCreatedAt());
-    
-        if (userDto.getRole() != null)
-            user.setRole(userDto.getRole());
-        else
-            user.setRole(null);
-    
-        if (userDto.getEnabled() != null)
-            user.setEnabled(userDto.getEnabled());
-        else
-            user.setEnabled(null);
+        user.setPassword(userDto.getPassword());
+        user.setCreatedAt(userDto.getCreatedAt());
+        user.setRole(userDto.getRole());
+        user.setEnabled(userDto.getEnabled());
         
         return user;
     }

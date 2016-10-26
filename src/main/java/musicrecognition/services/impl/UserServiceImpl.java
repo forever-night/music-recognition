@@ -46,7 +46,12 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public Integer insert(UserDto userDto) {
+        User defaultUser = new User();
+        
         User user = userMapper.toEntity(userDto);
+        user.setEnabled(defaultUser.getEnabled());
+        user.setRole(defaultUser.getRole());
+        
         return insert(user);
     }
     
