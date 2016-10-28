@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/", "/static/**", "/403").permitAll()
                 .antMatchers("/login*", "/register").anonymous()
                 .antMatchers(HttpMethod.POST, "/login*", "/register", "/rest/register").anonymous()
-                .antMatchers("/add").hasAuthority(User.Role.ADMIN.toString())
+                .antMatchers("/add", "/management").hasAuthority(User.Role.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, "/upload?add").hasAuthority(User.Role.ADMIN.toString())
                 .anyRequest().authenticated()
             .and()
