@@ -1,0 +1,15 @@
+.mastfoot {
+    position:static;
+}
+
+.masthead {
+    position:static;
+}
+
+.masthead + .cover {
+    padding-top:3em;
+}
+
+.site-wrapper-inner {
+    vertical-align: baseline;
+}

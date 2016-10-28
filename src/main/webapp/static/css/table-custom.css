@@ -1,0 +1,14 @@
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th {
+    border: 1px solid #aaa;
+}
+
+.table>tbody>tr>th {
+    color: #666;
+    text-shadow: 0 0 0;
+}
+
+.table-hover>tbody>tr:hover {
+    color: #888;
+    text-shadow: 0 0 0;
+}

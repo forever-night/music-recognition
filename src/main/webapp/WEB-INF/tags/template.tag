@@ -26,7 +26,14 @@
 <div class="cover-container">
 <div class="masthead clearfix">
     <div class="inner">
-        <h3 class="masthead-brand"><a href="<c:url value="/"/>">Music Recognition</a></h3>
+        <h3 class="masthead-brand">
+            <sec:authorize access="isAnonymous()">
+                <a href="<c:url value="/"/>">Music Recognition</a>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <a href="<c:url value="/identify"/>">Music Recognition</a>
+            </sec:authorize>
+        </h3>
         <nav>
             <ul class="nav masthead-nav">
                 <sec:authorize access="isAnonymous()">
@@ -46,6 +53,7 @@
                         <ul class="dropdown-menu cover-override" aria-labelledby="dropdownMenu">
                             <sec:authorize access="hasAuthority('ADMIN')">
                                 <li><a href="<c:url value="/add"/>">Add a track</a></li>
+                                <li><a href="<c:url value="/management"/>">User Management</a></li>
                                 <li role="separator" class="divider"></li>
                             </sec:authorize>
                             <li>
