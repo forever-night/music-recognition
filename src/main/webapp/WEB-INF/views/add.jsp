@@ -5,7 +5,7 @@
 <t:template>
 <jsp:attribute name="head">
     <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/loader.css"/>"/>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/positionFix.css"/>"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/position-fix.css"/>"/>
     <script src="<c:url value="/static/js/classes/track.js"/>"></script>
     <script src="<c:url value="/static/js/controllers/addController.js"/>"></script>
     <title>Add a track</title>
