@@ -151,17 +151,7 @@ app.service('UserValidatorService', function(){
     }
 });
 
-app.service('AuthService', function($http, $window, UserValidatorService, StatusService){
-    this.postUser = function(user, csrfToken) {
-        var config = {
-            headers: {
-                'X-CSRF-TOKEN' : csrfToken
-            }
-        };
-
-        return $http.post(restUrl.register, JSON.stringify(user), config);
-    };
-
+app.service('AuthService', function($http, $window, UserValidatorService, StatusService, UserService){
     this.register = function(user, csrfToken, statusElement) {
         if (user.password == null || user.password.length == 0 ||
             user.confirm == null || user.confirm.length == 0 ||
@@ -170,11 +160,11 @@ app.service('AuthService', function($http, $window, UserValidatorService, Status
             return;
         }
 
-        var passwordValid = ValidatorService.validatePassword(user.password, user.confirm);
-        var emailValid = ValidatorService.validateEmail(user.email);
+        var passwordValid = UserValidatorService.validatePassword(user.password, user.confirm);
+        var emailValid = UserValidatorService.validateEmail(user.email);
 
         if (passwordValid && emailValid) {
-            this.postUser(user, csrfToken).then(
+            UserService.postUser(user, restUrl.register, csrfToken).then(
                 function success() {
                     $window.location.href = url.login + "?register";
                 },
@@ -205,6 +195,7 @@ app.service('UserService', function($http) {
                     var user = new User(
                         item.username,
                         item.email,
+                        item.createdAt,
                         (new Date(item.createdAt)).toLocaleDateString(),
                         item.enabled,
                         item.role
@@ -216,7 +207,27 @@ app.service('UserService', function($http) {
                 return result;
             }
         );
-    } ;
+    };
+
+    this.postUser = function(user, url, csrfToken) {
+        var config = {
+            headers: {
+                'X-CSRF-TOKEN' : csrfToken
+            }
+        };
+
+        return $http.post(url, JSON.stringify(user), config);
+    };
+
+    this.putUser = function(user, url, csrfToken) {
+        var config = {
+            headers: {
+                'X-CSRF-TOKEN' : csrfToken
+            }
+        };
+
+        return $http.put(url, JSON.stringify(user), config);
+    };
 });
 
 
