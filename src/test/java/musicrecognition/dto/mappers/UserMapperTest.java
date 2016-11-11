@@ -29,11 +29,11 @@ public class UserMapperTest {
     public void dtoAllFieldsToEntity() {
         userDto.setCreatedAt(new Date());
         userDto.setEnabled(Boolean.TRUE);
-        userDto.setRole(User.Role.USER);
+        userDto.setRole(User.Role.USER.toString());
         
         userEntity.setCreatedAt(userDto.getCreatedAt());
         userEntity.setEnabled(userDto.getEnabled());
-        userEntity.setRole(userDto.getRole());
+        userEntity.setRole(User.Role.USER);
         
         User actual = userMapper.toEntity(userDto);
         
@@ -61,7 +61,7 @@ public class UserMapperTest {
         userDto.setPassword(userEntity.getPassword());
         userDto.setCreatedAt(userEntity.getCreatedAt());
         userDto.setEnabled(userEntity.getEnabled());
-        userDto.setRole(userEntity.getRole());
+        userDto.setRole(userEntity.getRole().toString());
         
         UserDto actual = userMapper.toDto(userEntity);
         

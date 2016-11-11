@@ -1,7 +1,5 @@
 package musicrecognition.dto;
 
-import musicrecognition.entities.User;
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,7 +10,7 @@ public class UserDto {
     private String email;
     private Date createdAt;
     private Boolean enabled;
-    private User.Role role;
+    private String role;
     
     public UserDto() {}
     
@@ -56,11 +54,11 @@ public class UserDto {
         this.enabled = enabled;
     }
     
-    public User.Role getRole() {
+    public String getRole() {
         return role;
     }
     
-    public void setRole(User.Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
     

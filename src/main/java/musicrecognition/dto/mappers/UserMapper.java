@@ -14,8 +14,14 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setCreatedAt(userDto.getCreatedAt());
-        user.setRole(userDto.getRole());
         user.setEnabled(userDto.getEnabled());
+        
+        if (User.Role.ADMIN.toString().equals(userDto.getRole()))
+            user.setRole(User.Role.ADMIN);
+        else if (User.Role.USER.toString().equals(userDto.getRole()))
+            user.setRole(User.Role.USER);
+        else
+            user.setRole(null);
         
         return user;
     }
@@ -27,7 +33,7 @@ public class UserMapper {
         userDto.setEmail(user.getEmail());
         userDto.setEnabled(user.getEnabled());
         userDto.setCreatedAt(user.getCreatedAt());
-        userDto.setRole(user.getRole());
+        userDto.setRole(user.getRole().toString());
         
         return userDto;
     }
