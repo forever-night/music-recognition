@@ -2,12 +2,13 @@ package musicrecognition.dto.mappers;
 
 import musicrecognition.dto.UserDto;
 import musicrecognition.entities.User;
-import musicrecognition.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
+import static musicrecognition.util.TestUtil.createUserDto;
+import static musicrecognition.util.TestUtil.dtoToEntity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -21,16 +22,12 @@ public class UserMapperTest {
     public void setUp() {
         userMapper = new UserMapper();
         
-        userDto = TestUtil.createUserDto();
-        userEntity = TestUtil.dtoToEntity(userDto);
+        userDto = createUserDto();
+        userEntity = dtoToEntity(userDto);
     }
     
     @Test
     public void dtoAllFieldsToEntity() {
-        userDto.setCreatedAt(new Date());
-        userDto.setEnabled(Boolean.TRUE);
-        userDto.setRole(User.Role.USER.toString());
-        
         userEntity.setCreatedAt(userDto.getCreatedAt());
         userEntity.setEnabled(userDto.getEnabled());
         userEntity.setRole(User.Role.USER);
@@ -44,6 +41,9 @@ public class UserMapperTest {
     
     @Test
     public void dtoPartialFieldsToEntity() {
+        userDto.setEnabled(null);
+        userDto.setRole(null);
+        
         userEntity.setEnabled(null);
         userEntity.setRole(null);
         

@@ -3,8 +3,6 @@ package musicrecognition.dao.impl;
 import musicrecognition.config.TestConfig;
 import musicrecognition.dao.interfaces.UserDao;
 import musicrecognition.entities.User;
-import musicrecognition.util.TestUtil;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import static musicrecognition.util.TestUtil.createUser;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,7 +31,7 @@ public class UserDaoImplIT {
             
     @Before
     public void setUp() {
-        user = TestUtil.createUser();
+        user = createUser();
     }
     
     @Test
@@ -38,7 +39,7 @@ public class UserDaoImplIT {
         user = null;
         Integer id = userDao.insert(user);
         
-        Assert.assertNull(id);
+        assertNull(id);
     }
     
     @Test
@@ -46,7 +47,7 @@ public class UserDaoImplIT {
         user.setUsername("");
         Integer id = userDao.insert(user);
         
-        Assert.assertNull(id);
+        assertNull(id);
     }
     
     @Test
@@ -54,14 +55,14 @@ public class UserDaoImplIT {
         user.setPassword("");
         Integer id = userDao.insert(user);
         
-        Assert.assertNull(id);
+        assertNull(id);
     }
     
     @Test
     public void insertUserNotNull() {
         Integer id = userDao.insert(user);
-        Assert.assertTrue(id > 0);
-        Assert.assertEquals(User.Role.USER, user.getRole());
+        assertTrue(id > 0);
+        assertEquals(User.Role.USER, user.getRole());
     }
     
     @Test(expected = DuplicateKeyException.class)
@@ -71,9 +72,18 @@ public class UserDaoImplIT {
     }
     
     @Test
+    public void updateUsernameNotExists() {
+        User user = createUser();
+        user.setUsername("notexists");
+        
+        User actual = userDao.update(user);
+        assertNull(actual);
+    }
+    
+    @Test
     public void getByUsernameNotFound() {
         User actual = userDao.getByUsername("test");
-        Assert.assertNull(actual);
+        assertNull(actual);
     }
     
     @Test
@@ -81,13 +91,13 @@ public class UserDaoImplIT {
         userDao.insert(user);
         User actual = userDao.getByUsername(user.getUsername());
         
-        Assert.assertEquals(user, actual);
+        assertEquals(user, actual);
     }
     
     @Test
     public void checkIfExistsFalse() {
         boolean actual = userDao.checkIfExists(user);
-        Assert.assertFalse(actual);
+        assertFalse(actual);
     }
     
     @Test
@@ -95,6 +105,6 @@ public class UserDaoImplIT {
         userDao.insert(user);
         boolean actual = userDao.checkIfExists(user);
         
-        Assert.assertTrue(actual);
+        assertTrue(actual);
     }
 }

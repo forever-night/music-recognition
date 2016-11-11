@@ -12,6 +12,8 @@ public interface UserDao {
      * @throws DuplicateKeyException if entity violates unique constraint
      * */
     Integer insert(User user) throws DuplicateKeyException;
+    
+    User update(User user);
         
     User getByUsername(String username);
     

@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
     
+    public UserServiceImpl(UserDao userDao, UserMapper userMapper) {
+        this.userDao = userDao;
+        this.userMapper = userMapper;
+    }
+    
     @Override
     @Transactional
     public Integer insert(User user) throws DuplicateKeyException {
@@ -53,6 +58,17 @@ public class UserServiceImpl implements UserService {
         user.setRole(defaultUser.getRole());
         
         return insert(user);
+    }
+    
+    @Override
+    public UserDto update(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        user = userDao.update(user);
+        
+        if (user != null)
+            return userMapper.toDto(user);
+        else
+            return null;
     }
     
     @Override

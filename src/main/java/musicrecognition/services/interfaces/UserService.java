@@ -22,6 +22,8 @@ public interface UserService {
      * */
     Integer insert(UserDto userDto);
     
+    UserDto update(UserDto userDto);
+    
     /**
      * Gets all persistent users, password field is omitted.
      *

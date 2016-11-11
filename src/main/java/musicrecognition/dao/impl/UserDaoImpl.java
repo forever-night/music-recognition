@@ -85,6 +85,24 @@ public class UserDaoImpl implements UserDao {
     }
     
     @Override
+    public User update(User user) {
+        String query = "update \"user\" set role = :role, enabled = :enabled where username = :username";
+    
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("username", user.getUsername());
+        parameterMap.put("role", user.getRole().toString());
+        parameterMap.put("enabled", user.getEnabled());
+    
+        SqlParameterSource parameterSource = new MapSqlParameterSource(parameterMap);
+        int updated = namedParameterJdbcTemplate.update(query, parameterSource);
+        
+        if (updated > 0)
+            return user;
+        else
+            return null;
+    }
+    
+    @Override
     public User getByUsername(String username) {
         String query = "select * from \"user\" u where u.username = :username";
         
