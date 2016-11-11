@@ -15,6 +15,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static musicrecognition.util.TestUtil.createUserDto;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -44,7 +45,7 @@ public class RegisterRestControllerTest {
                 .setControllerAdvice(new WebExceptionHandler())
                 .build();
     
-        userDto = TestUtil.createUserDto();
+        userDto = createUserDto();
     }
     
     @Test

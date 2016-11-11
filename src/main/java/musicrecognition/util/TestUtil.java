@@ -7,6 +7,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +18,9 @@ public class TestUtil {
         user.setUsername("username");
         user.setEmail("username@test.com");
         user.setPassword("password");
+        user.setCreatedAt(new Date());
+        user.setRole(User.Role.USER);
+        user.setEnabled(true);
         
         return user;
     }
@@ -61,9 +65,12 @@ public class TestUtil {
     
     public static UserDto createUserDto() {
         UserDto userDto = new UserDto();
-        userDto.setUsername("user");
-        userDto.setEmail("user@test.com");
+        userDto.setUsername("username");
+        userDto.setEmail("username@test.com");
         userDto.setPassword("password");
+        userDto.setCreatedAt(new Date());
+        userDto.setEnabled(true);
+        userDto.setRole(User.Role.USER.toString());
         
         return userDto;
     }
